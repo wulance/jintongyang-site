@@ -85,12 +85,6 @@
     font-weight: 900;
   }
 
-  /* CJK glyphs fill the em box, so the hero needs looser leading and a smaller size than Latin. */
-  :lang(zh-CN) .hero-title {
-    font-size: clamp(4.25rem, 14vw, 14rem);
-    line-height: 1.04;
-  }
-
   .eyebrow {
     font-size: 0.75rem;
     font-weight: 600;
@@ -168,4 +162,11 @@
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* CJK glyphs fill the em box, so the hero needs looser leading and a smaller size than Latin.
+   Unlayered so it wins over the utility classes on the heading. */
+:lang(zh-CN) .hero-title {
+  font-size: clamp(4.25rem, 14vw, 14rem);
+  line-height: 1.04;
 }

@@ -73,7 +73,7 @@ export function SiteFooter({ locale, dict }: { locale: Locale; dict: Dictionary 
             </div>
           </div>
 
-          <div className="mt-12 flex flex-col gap-2 text-xs text-ink/70 md:flex-row md:items-center md:justify-between">
+          <div className="mt-12 flex flex-col gap-2 text-xs text-ink/70 md:flex-row md:items-center md:gap-10">
             <p>
               © {new Date().getFullYear()} {company.legalName[locale]} {t.rights}
             </p>

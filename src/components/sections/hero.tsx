@@ -23,7 +23,7 @@ export function Hero({ locale, dict }: { locale: Locale; dict: Dictionary }) {
             ))}
           </ul>
 
-          <h1 className="display relative z-10 my-auto py-10 text-[clamp(5.25rem,17.5vw,17.5rem)] leading-[0.8] text-paper">
+          <h1 className="hero-title display relative z-10 my-auto py-10 text-[clamp(5.25rem,17.5vw,17.5rem)] leading-[0.8] text-paper">
             <span className="block">{first}</span>
             <span className="block md:pl-[0.55em]">{second}</span>
             <span className="block">

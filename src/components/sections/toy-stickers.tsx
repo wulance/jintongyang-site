@@ -8,9 +8,9 @@ import type { Locale } from "@/i18n/config";
 
 /** Position and width are classes so each sticker can sit differently on phones and desktops. */
 const stickers = [
-  { id: 708, rotate: -6, box: "top-[9%] left-[44%] w-[54vw] md:top-[5%] md:left-[50%] md:w-[min(31vw,29rem)]", bob: "0s" },
-  { id: 717, rotate: 9, box: "top-[47%] left-[66%] w-[27vw] md:top-[40%] md:left-[81%] md:w-[min(14vw,13rem)]", bob: "-1.6s" },
-  { id: 713, rotate: 5, box: "top-[60%] left-[2%] w-[46vw] md:top-[64%] md:left-[41%] md:w-[min(23vw,21rem)]", bob: "-3.1s" },
+  { id: 708, rotate: -6, box: "top-[7%] left-[45%] w-[52vw] md:top-[5%] md:left-[50%] md:w-[min(31vw,29rem)]", bob: "0s" },
+  { id: 717, rotate: 9, box: "top-[33%] left-[70%] w-[23vw] md:top-[40%] md:left-[81%] md:w-[min(14vw,13rem)]", bob: "-1.6s" },
+  { id: 713, rotate: 5, box: "max-md:hidden md:top-[64%] md:left-[41%] md:w-[min(23vw,21rem)]", bob: "-3.1s" },
   { id: 719, rotate: 11, box: "max-md:hidden md:top-[3%] md:left-[87%] md:w-[min(9.5vw,9rem)]", bob: "-2.2s" },
   { id: 718, rotate: -5, box: "max-md:hidden md:top-[52%] md:left-[61%] md:w-[min(16vw,15rem)]", bob: "-4s" },
 ];

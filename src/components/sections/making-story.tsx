@@ -49,8 +49,8 @@ function Chapter({ p, index, total, children }: { p: MotionValue<number>; index:
 /** One toy being made. The page pins while scrolling draws it, cuts it, sews it, fills it and sends it off. */
 export function MakingStory({ dict, action }: { dict: Dictionary; action?: ReactNode }) {
   const t = dict.process;
-  const section = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({ target: section, offset: ["start start", "end end"] });
+  const track = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: track, offset: ["start start", "end end"] });
   const p = useSpring(scrollYProgress, { stiffness: 160, damping: 30, mass: 0.35 });
   const total = t.steps.length;
 
@@ -63,67 +63,72 @@ export function MakingStory({ dict, action }: { dict: Dictionary; action?: React
   const bar = useTransform(p, (v) => (v * 100).toFixed(2) + "%");
 
   return (
-    <section ref={section} className="relative h-[460svh]">
-      <div className="sticky top-0 flex h-svh flex-col overflow-hidden pt-24 pb-6 md:pt-28 md:pb-10">
-        <div className="shell flex items-end justify-between gap-6">
-          <div>
-            <p className="eyebrow mb-3">{t.eyebrow}</p>
-            <h2 className="display text-[clamp(1.75rem,min(4.4vw,6.5svh),4rem)]">{t.title}</h2>
+    <section>
+      <div ref={track} className="relative h-[460svh]">
+        <div className="sticky top-0 flex h-svh flex-col overflow-hidden pt-24 pb-6 md:pt-28 md:pb-10">
+          <div className="shell flex items-end justify-between gap-6">
+            <div>
+              <p className="eyebrow mb-3 [@media(max-height:30rem)]:hidden">{t.eyebrow}</p>
+              <h2 className="display text-[clamp(1.75rem,min(4.4vw,6.5svh),4rem)]">{t.title}</h2>
+            </div>
+            <div className="max-md:hidden">{action}</div>
           </div>
-          <div className="max-md:hidden">{action}</div>
-        </div>
 
-        <div className="shell grid min-h-0 flex-1 grid-rows-[minmax(0,1fr)_auto] gap-4 pt-4 lg:grid-cols-12 lg:grid-rows-1 lg:gap-10 lg:pt-8">
-          <div className="relative min-h-0 lg:col-span-7">
-            <motion.div style={{ opacity: grid }} className="sheet absolute inset-0 rounded-card ring-1 ring-ink/10" />
-            <motion.div style={{ scale: sun }} className="absolute top-1/2 left-1/2 aspect-square h-[82%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-persimmon" />
-            <svg viewBox="0 0 400 420" className="absolute inset-0 size-full text-ink" role="img" aria-label={t.title}>
-              <motion.g style={{ opacity: crowd }}>
-                <use href="#toy-outline" transform="translate(-30 150) scale(0.55)" />
-                <use href="#toy-outline" transform="translate(210 150) scale(0.55)" />
-              </motion.g>
-              <defs>
-                <g id="toy-outline">
-                  {pieces.map((piece) => (
-                    <path key={piece.id} d={piece.d} className="fill-butter" stroke="currentColor" strokeWidth="4" strokeLinejoin="round" />
-                  ))}
-                </g>
-              </defs>
-              <motion.g style={{ scale: puff, transformOrigin: "200px 220px" }}>
-                {pieces.map((piece) => (
-                  <Piece key={piece.id} piece={piece} p={p} />
-                ))}
-                <motion.g style={{ opacity: face }} fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round">
-                  <path d="M172 120v10M228 120v10" strokeWidth="9" />
-                  <path d="M190 150q10 9 20 0" />
-                  <path d="M200 142v6" className="stroke-persimmon" strokeWidth="9" />
+          {/* Stacked on an upright phone; side by side on desktop and on a phone held sideways, where stacking leaves the toy no room. */}
+          <div className="shell grid min-h-0 flex-1 grid-rows-[minmax(0,1fr)_auto] gap-4 pt-4 max-lg:landscape:grid-cols-12 max-lg:landscape:grid-rows-1 max-lg:landscape:gap-6 lg:grid-cols-12 lg:grid-rows-1 lg:gap-10 lg:pt-8">
+            <div className="relative min-h-0 max-lg:landscape:col-span-6 lg:col-span-7">
+              <motion.div style={{ opacity: grid }} className="sheet absolute inset-0 rounded-card ring-1 ring-ink/10" />
+              <motion.div style={{ scale: sun }} className="absolute top-1/2 left-1/2 aspect-square h-[82%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-persimmon" />
+              <svg viewBox="0 0 400 420" className="absolute inset-0 size-full text-ink" role="img" aria-label={t.title}>
+                <motion.g style={{ opacity: crowd }}>
+                  <use href="#toy-outline" transform="translate(-30 150) scale(0.55)" />
+                  <use href="#toy-outline" transform="translate(210 150) scale(0.55)" />
                 </motion.g>
-              </motion.g>
-              <motion.g style={{ opacity: tag }}>
-                <path d="M286 300l52-22l14 34l-52 22Z" className="fill-paper" stroke="currentColor" strokeWidth="3" strokeLinejoin="round" />
-                <circle cx="298" cy="304" r="3.5" className="fill-ink" />
-                <path d="M312 304l7 7l12-15" fill="none" className="stroke-persimmon" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
-              </motion.g>
-            </svg>
-          </div>
+                <defs>
+                  <g id="toy-outline">
+                    {pieces.map((piece) => (
+                      <path key={piece.id} d={piece.d} className="fill-butter" stroke="currentColor" strokeWidth="4" strokeLinejoin="round" />
+                    ))}
+                  </g>
+                </defs>
+                <motion.g style={{ scale: puff, transformOrigin: "200px 220px" }}>
+                  {pieces.map((piece) => (
+                    <Piece key={piece.id} piece={piece} p={p} />
+                  ))}
+                  <motion.g style={{ opacity: face }} fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round">
+                    <path d="M172 120v10M228 120v10" strokeWidth="9" />
+                    <path d="M190 150q10 9 20 0" />
+                    <path d="M200 142v6" className="stroke-persimmon" strokeWidth="9" />
+                  </motion.g>
+                </motion.g>
+                <motion.g style={{ opacity: tag }}>
+                  <path d="M286 300l52-22l14 34l-52 22Z" className="fill-paper" stroke="currentColor" strokeWidth="3" strokeLinejoin="round" />
+                  <circle cx="298" cy="304" r="3.5" className="fill-ink" />
+                  <path d="M312 304l7 7l12-15" fill="none" className="stroke-persimmon" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+                </motion.g>
+              </svg>
+            </div>
 
-          <div className="relative flex min-h-[11.5rem] flex-col lg:col-span-5 lg:min-h-0">
-            <ol className="relative flex-1">
-              {t.steps.map((step, i) => (
-                <Chapter key={step.title} p={p} index={i} total={total}>
-                  <span className="display text-[clamp(3rem,min(9vw,13svh),8rem)] leading-[0.8] text-persimmon">{String(i + 1).padStart(2, "0")}</span>
-                  <h3 className="display mt-3 text-[clamp(1.75rem,min(3.4vw,5.5svh),3.25rem)] lg:mt-6">{step.title}</h3>
-                  <p className="mt-2 max-w-md leading-snug text-ink/80 lg:mt-4 lg:text-xl">{step.body}</p>
-                </Chapter>
-              ))}
-            </ol>
-            <div className="relative mt-4 h-[2px] text-ink/20" aria-hidden>
-              <div className="stitch absolute inset-0" />
-              <motion.div style={{ width: bar }} className="stitch absolute inset-y-0 left-0 text-ink" />
+            <div className="relative flex min-h-[11.5rem] flex-col max-lg:landscape:col-span-6 max-lg:landscape:min-h-0 lg:col-span-5 lg:min-h-0">
+              <ol className="relative flex-1">
+                {t.steps.map((step, i) => (
+                  <Chapter key={step.title} p={p} index={i} total={total}>
+                    <span className="display text-[clamp(3rem,min(9vw,13svh),8rem)] leading-[0.8] text-persimmon">{String(i + 1).padStart(2, "0")}</span>
+                    <h3 className="display mt-3 text-[clamp(1.75rem,min(3.4vw,5.5svh),3.25rem)] lg:mt-6">{step.title}</h3>
+                    <p className="mt-2 max-w-md leading-snug text-ink/80 lg:mt-4 lg:text-xl">{step.body}</p>
+                  </Chapter>
+                ))}
+              </ol>
+              <div className="relative mt-4 h-[2px] text-ink/20" aria-hidden>
+                <div className="stitch absolute inset-0" />
+                <motion.div style={{ width: bar }} className="stitch absolute inset-y-0 left-0 text-ink" />
+              </div>
             </div>
           </div>
         </div>
       </div>
+      {/* The header button is hidden on phones, so the link follows the story there. */}
+      {action && <div className="shell pt-2 pb-12 md:hidden">{action}</div>}
     </section>
   );
 }

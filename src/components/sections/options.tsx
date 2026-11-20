@@ -57,7 +57,7 @@ export function Options({ dict }: { dict: Dictionary }) {
   const t = dict.options;
   const toy = cutoutImage(719);
   return (
-    <section className="sheet">
+    <section className="sheet overflow-x-clip">
       <div className="shell py-20 md:py-28">
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div>

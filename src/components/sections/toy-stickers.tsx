@@ -8,10 +8,10 @@ import type { Locale } from "@/i18n/config";
 
 /** Position and width are classes so each sticker can sit differently on phones and desktops. */
 const stickers = [
-  { id: 708, rotate: -6, box: "top-[7%] left-[45%] w-[52vw] md:top-[5%] md:left-[50%] md:w-[min(31vw,29rem)]", bob: "0s" },
+  { id: 708, rotate: -6, box: "top-[7%] left-[45%] w-[52vw] md:top-[8%] md:left-[50%] md:w-[min(31vw,29rem)]", bob: "0s" },
   { id: 717, rotate: 9, box: "top-[33%] left-[70%] w-[23vw] md:top-[40%] md:left-[81%] md:w-[min(14vw,13rem)]", bob: "-1.6s" },
   { id: 713, rotate: 5, box: "max-md:hidden md:top-[64%] md:left-[41%] md:w-[min(23vw,21rem)]", bob: "-3.1s" },
-  { id: 719, rotate: 11, box: "max-md:hidden md:top-[3%] md:left-[87%] md:w-[min(9.5vw,9rem)]", bob: "-2.2s" },
+  { id: 719, rotate: 11, box: "max-md:hidden md:top-[10%] md:left-[87%] md:w-[min(9.5vw,9rem)]", bob: "-2.2s" },
   { id: 718, rotate: -5, box: "max-md:hidden md:top-[52%] md:left-[61%] md:w-[min(16vw,15rem)]", bob: "-4s" },
 ];
 
@@ -56,7 +56,7 @@ export function ToyStickers({ locale, hint }: { locale: Locale; hint: string }) 
       })}
 
       {canDrag && (
-        <p className="absolute top-[1%] left-[66%] hidden -rotate-6 items-center gap-2 text-sm font-semibold text-ink md:flex">
+        <p className="absolute top-[5.5%] left-[68%] hidden -rotate-6 items-center gap-2 text-sm font-semibold text-ink md:flex">
           {hint}
           <svg viewBox="0 0 40 28" fill="none" aria-hidden className="h-6 w-9 translate-y-2">
             <path d="M2 4c12-3 26 2 30 18m0 0-7-5m7 5 4-8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />

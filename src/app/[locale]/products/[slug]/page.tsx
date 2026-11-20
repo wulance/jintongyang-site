@@ -61,6 +61,20 @@ export default async function ProductPage({ params }: Props) {
           </Link>
         </nav>
 
+        {/* Archive header: the style number is the page's headline figure, ruled like a ledger entry. */}
+        <div className="mb-8 flex items-end justify-between gap-6 border-y-2 border-ink py-4 md:mb-12 md:py-6">
+          <p className="font-mono text-[clamp(4rem,17vw,13rem)] leading-[0.8] tracking-[-0.07em]">
+            <span className="note mb-3 block tracking-normal text-ink/50">{t.itemNo} · JTY</span>
+            {product.id}
+          </p>
+          <p className="note pb-1 text-right text-ink/60 max-sm:hidden">
+            {category.name[locale]}
+            <span className="mt-1 block">
+              {String(products.findIndex((p) => p.id === product.id) + 1).padStart(2, "0")} / {String(products.length).padStart(2, "0")}
+            </span>
+          </p>
+        </div>
+
         <div className="grid gap-10 lg:grid-cols-12 lg:gap-14">
           <div className="space-y-4 lg:col-span-7">
             {product.images.map((id, i) => {
@@ -83,10 +97,6 @@ export default async function ProductPage({ params }: Props) {
 
           <div className="lg:col-span-5">
             <div className="lg:sticky lg:top-28">
-              <p className="note mb-5 flex items-center gap-2">
-                <span className="size-2.5 rounded-full bg-persimmon" />
-                {itemCode(product)}
-              </p>
               <h1 className="display text-[clamp(2.75rem,5.4vw,4.75rem)]">{product.name[locale]}</h1>
               <p className="mt-6 text-lg leading-relaxed text-ink-soft">{product.summary?.[locale] ?? t.noSummary}</p>
 

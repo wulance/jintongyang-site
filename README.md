@@ -1,36 +1,50 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Jintongyang — B2B site proposal
 
-## Getting Started
+Bilingual (English / 简体中文) inquiry site for Hebei Jintongyang Toys Co., Ltd., built as a proposal.
+It is a catalogue and OEM/ODM inquiry site, not a shop: there is no cart or checkout.
 
-First, run the development server:
+## Stack
+
+Next.js 15 (App Router) · TypeScript · Tailwind CSS 4 · Zod
+
+## Commands
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev        # http://localhost:3000
+npm run build && npm start
+npm run lint
+npm run typecheck
+npm run images     # rebuild public/images from assets/source
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Structure
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+assets/source/        original images archived from jintongyang.com (never edited)
+scripts/              prepare-images.mjs: crops, removes size-chart stickers, upscales
+src/app/[locale]/     pages: home, products, products/[slug], custom, factory, contact
+src/app/api/inquiry/  POST endpoint for the inquiry form (validates; delivery not wired)
+src/components/       layout / sections / product / inquiry / ui
+src/content/          typed data: company, categories, products, factory photos
+src/i18n/             locale config and the en / zh dictionaries
+src/lib/              routes, inquiry schema, helpers
+src/middleware.ts     redirects "/" to /en or /zh by Accept-Language
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+To add a product: put the image in `assets/source/products/<id>.jpg`, add it to
+`scripts/prepare-images.mjs`, run `npm run images`, then add an entry in `src/content/products.ts`.
 
-## Learn More
+## Before this goes public
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Image rights.** All photos come from jintongyang.com. Get written permission, including for
+  the workshop photos that show staff.
+- **Figures.** Staff, machine and output numbers in `src/content/company.ts` are the company's own
+  statements and are unverified.
+- **Catalogue.** 26 of the 43 items on the source site are included. The rest are left out because
+  their only photo is a multi-product poster, shows a model, or resembles third-party characters.
+  English product names are working translations.
+- **Inquiry delivery.** `deliver()` in `src/app/api/inquiry/route.ts` returns `false`; connect it to
+  email or a CRM. Until then the form says clearly that nothing was sent.
+- **Logo.** `src/components/ui/logo.tsx` is a placeholder mark.
+- **Preview bar and noindex.** Set `NEXT_PUBLIC_PREVIEW_NOTICE=off` and `NEXT_PUBLIC_SITE_URL` at launch.

@@ -32,7 +32,9 @@ export function SqueezeToy({ image, alt, className, rotate = 0, order = 0, prior
       drag={drag}
       dragConstraints={bounds}
       dragElastic={0.25}
-      dragTransition={{ power: 0.25, bounceStiffness: 240, bounceDamping: 16 }}
+      // Let go and the toy springs back to its place, so it can never be left outside the stage.
+      dragSnapToOrigin
+      dragTransition={{ bounceStiffness: 220, bounceDamping: 14 }}
       initial={{ opacity: 0, scale: 0.4, rotate: rotate - 18, y: 80 }}
       animate={{ opacity: 1, scale: 1, rotate, y: 0 }}
       transition={{ type: "spring", stiffness: 150, damping: 13, delay: 0.55 + order * 0.1 }}

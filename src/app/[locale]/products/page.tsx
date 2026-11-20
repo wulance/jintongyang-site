@@ -24,7 +24,7 @@ export default async function ProductsPage({ params }: Props) {
       <PageIntro eyebrow={dict.collections.eyebrow} title={t.title} lead={t.lead} />
       <section className="shell pb-24 md:pb-32">
         <Suspense>
-          <ProductExplorer locale={locale} labels={t} />
+          <ProductExplorer locale={locale} labels={t} optionLabels={dict.options.items} />
         </Suspense>
         {locale === "en" && <p className="mt-14 text-xs text-ink-soft/80">{t.nameNote}</p>}
       </section>

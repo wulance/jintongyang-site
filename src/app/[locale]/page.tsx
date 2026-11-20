@@ -6,7 +6,7 @@ import { FactoryPreview } from "@/components/sections/factory-preview";
 import { Featured } from "@/components/sections/featured";
 import { Hero } from "@/components/sections/hero";
 import { Options } from "@/components/sections/options";
-import { Process } from "@/components/sections/process";
+import { MakingStory } from "@/components/sections/making-story";
 import { ButtonLink } from "@/components/ui/button";
 import { facts } from "@/content";
 import { isLocale } from "@/i18n/config";
@@ -24,7 +24,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       <Capabilities items={dict.marquee} />
       <CollectionIndex locale={locale} dict={dict} />
       <Featured locale={locale} dict={dict} />
-      <Process
+      <MakingStory
         dict={dict}
         action={
           <ButtonLink href={routes.custom(locale)} variant="ink">

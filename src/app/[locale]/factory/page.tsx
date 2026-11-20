@@ -32,7 +32,7 @@ export default async function FactoryPage({ params }: Props) {
 
       <section className="shell grid gap-4 sm:grid-cols-2 lg:grid-cols-12">
         {factoryPhotos.map((photo, i) => (
-          <figure key={photo.id} className={cn("reveal relative h-64 overflow-hidden rounded-card bg-paper-deep sm:h-72 lg:h-[26rem]", spans[i % spans.length])}>
+          <figure key={photo.id} className={cn("reveal duotone relative h-64 overflow-hidden rounded-card sm:h-72 lg:h-[26rem]", spans[i % spans.length])}>
             <Image
               src={factoryImage(photo.id).src}
               alt={photo.caption[locale]}
@@ -41,7 +41,7 @@ export default async function FactoryPage({ params }: Props) {
               sizes="(min-width: 1024px) 56vw, (min-width: 640px) 46vw, 92vw"
               className="object-cover"
             />
-            <figcaption className="absolute bottom-4 left-4 rounded-full bg-paper/90 px-3 py-1.5 text-xs font-medium backdrop-blur">
+            <figcaption className="note absolute bottom-4 left-4 rounded-full bg-paper px-3 py-1.5">
               {photo.caption[locale]}
             </figcaption>
           </figure>

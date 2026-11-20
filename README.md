@@ -23,9 +23,12 @@ npm run images     # rebuild public/images from assets/source
 ```
 assets/source/        original images archived from jintongyang.com (never edited)
 scripts/              prepare-images.mjs: crops, removes size-chart stickers, upscales
+                      cutouts.py: removes backdrops for the cut-out toys (public/images/cutouts)
+                      subset-fonts.py: cuts the Chinese fonts down to the characters in src/
 src/app/[locale]/     pages: home, products, products/[slug], custom, factory, contact
 src/components/       layout / sections / product / inquiry / ui
 src/content/          typed data: company, categories, products, factory photos
+src/fonts/            Chinese web fonts, subset (see below)
 src/i18n/             locale config and the en / zh dictionaries
 src/lib/              routes, inquiry schema, helpers
 public/index.html     sends "/" to /en/ or /zh/ by browser language
@@ -34,6 +37,24 @@ public/index.html     sends "/" to /en/ or /zh/ by browser language
 
 To add a product: put the image in `assets/source/products/<id>.jpg`, add it to
 `scripts/prepare-images.mjs`, run `npm run images`, then add an entry in `src/content/products.ts`.
+
+## Design
+
+One idea runs through the site: soft things, made seriously. The soft half is the stuffed type and
+the toys, which give when pressed. The serious half is the spec-sheet layer: pattern-paper grid,
+monospaced annotations, running-stitch rules, call-out lines. The red disc is the sun in the
+company name (彤阳).
+
+Colour is paper, ink and persimmon, with butter and sky as the only supporting tones.
+
+## Chinese fonts
+
+Chinese text is set in Resource Han Rounded CN (SIL OFL 1.1). The full fonts are about 14 MB a
+weight, so `src/fonts/` holds subsets with only the characters used in `src/` (about 85 KB each).
+After changing Chinese copy or product names, download the fonts from
+https://github.com/CyanoHao/Resource-Han-Rounded/releases and run
+`python3 scripts/subset-fonts.py <folder with the .ttf files>`. A character missing from the subset
+falls back to the system font.
 
 ## Before this goes public
 

@@ -6,9 +6,10 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { ProductCard } from "@/components/product/product-card";
-import { OptionIcon } from "@/components/sections/options";
+import { OptionIcon, optionOrder } from "@/components/sections/options";
 import { ButtonLink } from "@/components/ui/button";
-import { getCategory, getProduct, getRelated, itemCode, productImage, products, standardSizes } from "@/content";
+import { getCategory, getProduct, getRelated, itemCode, productImage, products, standardHeights, standardSizes } from "@/content";
+import { cn } from "@/lib/cn";
 import { locales } from "@/i18n/config";
 import { routes } from "@/lib/routes";
 
@@ -45,10 +46,12 @@ export default async function ProductPage({ params }: Props) {
     { label: t.moq, value: t.moqValue },
   ];
 
+  const tallest = Math.max(...standardHeights);
+
   return (
     <>
-      <section className="shell pt-8 pb-24 md:pt-12 md:pb-32">
-        <nav className="mb-8 flex items-center gap-2 text-sm text-ink-soft">
+      <section className="shell pt-8 pb-20 md:pt-12 md:pb-28">
+        <nav className="note mb-8 flex items-center gap-2 text-ink-soft">
           <Link href={routes.products(locale)} className="hover:text-ink">
             {t.back}
           </Link>
@@ -63,7 +66,7 @@ export default async function ProductPage({ params }: Props) {
             {product.images.map((id, i) => {
               const image = productImage(id);
               return (
-                <div key={id} className="overflow-hidden rounded-card bg-sky">
+                <div key={id} className="rounded-card bg-paper-deep p-3">
                   <Image
                     src={image.src}
                     width={image.width}
@@ -71,7 +74,7 @@ export default async function ProductPage({ params }: Props) {
                     alt={product.name[locale]}
                     priority={i === 0}
                     sizes="(min-width: 1024px) 56vw, 92vw"
-                    className="h-auto w-full"
+                    className="h-auto w-full rounded-[1rem]"
                   />
                 </div>
               );
@@ -80,33 +83,23 @@ export default async function ProductPage({ params }: Props) {
 
           <div className="lg:col-span-5">
             <div className="lg:sticky lg:top-28">
-              <p className="eyebrow mb-5">{itemCode(product)}</p>
-              <h1 className="display text-[clamp(2.5rem,5vw,4.25rem)]">{product.name[locale]}</h1>
+              <p className="note mb-5 flex items-center gap-2">
+                <span className="size-2.5 rounded-full bg-persimmon" />
+                {itemCode(product)}
+              </p>
+              <h1 className="display text-[clamp(2.75rem,5.4vw,4.75rem)]">{product.name[locale]}</h1>
               <p className="mt-6 text-lg leading-relaxed text-ink-soft">{product.summary?.[locale] ?? t.noSummary}</p>
 
-              {product.options && (
-                <ul className="mt-6 flex flex-wrap gap-2">
-                  {product.options.map((id) => (
-                    <li key={id} className="flex items-center gap-2 rounded-full bg-paper-deep py-2 pr-4 pl-3 text-sm">
-                      <span className="text-persimmon">
-                        <OptionIcon id={id} />
-                      </span>
-                      {dict.options.items[id].title}
-                    </li>
-                  ))}
-                </ul>
-              )}
-
-              <dl className="mt-10 border-t border-line">
+              <dl className="mt-10">
                 {specs.map((spec) => (
-                  <div key={spec.label} className="grid grid-cols-[8.5rem_1fr] gap-4 border-b border-line py-4 text-[0.9375rem]">
-                    <dt className="text-ink-soft">{spec.label}</dt>
+                  <div key={spec.label} className="grid grid-cols-[8.5rem_1fr] gap-4 border-t border-line py-4 text-[0.9375rem]">
+                    <dt className="note pt-0.5 text-ink-soft">{spec.label}</dt>
                     <dd>{spec.value}</dd>
                   </div>
                 ))}
               </dl>
 
-              <div className="mt-10 flex flex-wrap gap-3">
+              <div className="mt-8 flex flex-wrap gap-3">
                 <ButtonLink href={routes.contact(locale, product.slug)} variant="primary" size="lg">
                   {dict.cta.quote}
                 </ButtonLink>
@@ -119,9 +112,91 @@ export default async function ProductPage({ params }: Props) {
         </div>
       </section>
 
+      <section className="sheet">
+        <div className="stitch text-ink/35" />
+        <div className="shell grid gap-x-16 gap-y-16 py-20 md:py-24 lg:grid-cols-12">
+          <div className="min-w-0 lg:col-span-5">
+            <p className="eyebrow mb-4">{t.sizes}</p>
+            <h2 className="display text-[clamp(2rem,4vw,3.25rem)]">{t.sizesTitle}</h2>
+            <ul className="mt-10 flex h-52 items-end gap-4 border-b-2 border-ink sm:h-64 sm:gap-10">
+              {standardHeights.map((inches) => (
+                <li key={inches} className="flex h-full items-end gap-3" style={{ height: (inches / tallest) * 100 + "%" }}>
+                  <span className="flex h-full flex-col items-center">
+                    <span className="h-px w-2.5 bg-ink" />
+                    <span className="w-px flex-1 bg-ink" />
+                    <span className="h-px w-2.5 bg-ink" />
+                  </span>
+                  <span className="flex h-full flex-col justify-between">
+                    <span className="note whitespace-nowrap">
+                      {inches} in
+                      <span className="block text-ink/55">{Math.round(inches * 2.54)} cm</span>
+                    </span>
+                    <svg viewBox="0 0 60 84" aria-hidden className="h-[72%] w-auto text-persimmon" preserveAspectRatio="xMidYMax meet">
+                      <circle cx="15" cy="11" r="9" fill="currentColor" />
+                      <circle cx="45" cy="11" r="9" fill="currentColor" />
+                      <circle cx="30" cy="25" r="20" fill="currentColor" />
+                      <ellipse cx="30" cy="60" rx="21" ry="24" fill="currentColor" />
+                      <ellipse cx="10" cy="80" rx="9" ry="4" fill="currentColor" />
+                      <ellipse cx="50" cy="80" rx="9" ry="4" fill="currentColor" />
+                    </svg>
+                  </span>
+                </li>
+              ))}
+            </ul>
+            <p className="mt-5 max-w-sm text-[0.9375rem] text-ink-soft">{t.sizesNote}</p>
+          </div>
+
+          <div className="min-w-0 lg:col-span-7">
+            <p className="eyebrow mb-4">{dict.options.eyebrow}</p>
+            <h2 className="display text-[clamp(2rem,4vw,3.25rem)]">{t.optionsTitle}</h2>
+            <ul className="mt-10 grid gap-x-10 sm:grid-cols-2">
+              {optionOrder.map((id) => {
+                const fitted = product.options?.includes(id);
+                return (
+                  <li key={id} className="flex gap-4 border-t border-line py-5">
+                    <span className={cn("grid size-11 shrink-0 place-items-center rounded-full", fitted ? "bg-persimmon text-paper" : "bg-paper-deep text-ink")}>
+                      <OptionIcon id={id} />
+                    </span>
+                    <div>
+                      <h3 className="flex flex-wrap items-center gap-x-3 gap-y-1 font-semibold">
+                        {dict.options.items[id].title}
+                        {fitted && <span className="note rounded-full bg-persimmon px-2 py-0.5 text-paper">{t.included}</span>}
+                      </h3>
+                      <p className="mt-1 text-[0.9375rem] leading-snug text-ink-soft">{dict.options.items[id].body}</p>
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        </div>
+        <div className="stitch text-ink/35" />
+      </section>
+
+      <section className="shell py-20 md:py-24">
+        <div className="flex flex-wrap items-end justify-between gap-6">
+          <div>
+            <p className="eyebrow mb-4">{dict.process.eyebrow}</p>
+            <h2 className="display text-[clamp(2rem,4vw,3.25rem)]">{t.processTitle}</h2>
+          </div>
+          <ButtonLink href={routes.custom(locale)} variant="ghost">
+            {dict.process.link}
+          </ButtonLink>
+        </div>
+        <ol className="mt-10 grid gap-x-6 gap-y-6 sm:grid-cols-2 lg:grid-cols-5">
+          {dict.process.steps.map((step, i) => (
+            <li key={step.title} className="border-t-2 border-ink pt-4">
+              <span className="note text-persimmon">{String(i + 1).padStart(2, "0")}</span>
+              <h3 className="display mt-2 text-2xl">{step.title}</h3>
+              <p className="mt-2 text-[0.9375rem] leading-snug text-ink-soft">{step.body}</p>
+            </li>
+          ))}
+        </ol>
+      </section>
+
       <section className="shell pb-24 md:pb-32">
         <h2 className="display text-[clamp(2rem,4vw,3.25rem)]">{t.related}</h2>
-        <ul className="mt-10 grid gap-x-5 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
+        <ul className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {getRelated(product).map((item) => (
             <li key={item.id}>
               <ProductCard product={item} locale={locale} sizes="(min-width: 1024px) 22vw, (min-width: 640px) 45vw, 92vw" />

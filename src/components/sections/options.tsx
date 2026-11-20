@@ -1,6 +1,8 @@
-import type { OptionId } from "@/content";
+import Image from "next/image";
+import type { CSSProperties } from "react";
+import { cutoutImage, type OptionId } from "@/content";
 import type { Dictionary } from "@/i18n/get-dictionary";
-import { SectionHeading } from "@/components/ui/section-heading";
+import { cn } from "@/lib/cn";
 
 const icons: Record<OptionId, string> = {
   light: "M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3Z",
@@ -21,24 +23,74 @@ export function OptionIcon({ id }: { id: OptionId }) {
   );
 }
 
+/** How far each leader line runs into the circle, as a share of its width: the middle row meets it sooner. */
+const reach = [0.3, 0.1, 0.3];
+
+function Callouts({ ids, side, dict, offset }: { ids: OptionId[]; side: "left" | "right"; dict: Dictionary; offset: number }) {
+  return (
+    <ul className="grid gap-x-6 gap-y-8 max-lg:grid-cols-2 max-sm:grid-cols-1 lg:h-full lg:content-between lg:gap-y-6 lg:py-[6%]">
+      {ids.map((id, i) => (
+        <li key={id} className={cn("flex items-start gap-4", side === "right" && "lg:flex-row-reverse")}>
+          <div className="lg:w-[15.5rem] lg:shrink-0">
+            <p className="note mb-2 text-persimmon">{String(offset + i + 1).padStart(2, "0")}</p>
+            <h3 className="text-xl leading-tight font-semibold">{dict.options.items[id].title}</h3>
+            <p className="mt-1.5 text-[0.9375rem] leading-snug text-ink-soft">{dict.options.items[id].body}</p>
+          </div>
+          <span
+            aria-hidden
+            style={{ "--reach": reach[i] } as CSSProperties}
+            className={cn(
+              "relative mt-[1.9rem] hidden h-px flex-1 bg-ink/35 lg:block",
+              side === "left" ? "-mr-[calc(var(--disc)*var(--reach))]" : "-ml-[calc(var(--disc)*var(--reach))]",
+            )}
+          >
+            <span className={cn("absolute top-1/2 size-2 -translate-y-1/2 rounded-full bg-ink", side === "left" ? "right-0" : "left-0")} />
+          </span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+/** The built-in options drawn the way a spec sheet would: one toy, six call-outs. */
 export function Options({ dict }: { dict: Dictionary }) {
   const t = dict.options;
+  const toy = cutoutImage(719);
   return (
-    <section className="shell pb-24 md:pb-32">
-      <SectionHeading eyebrow={t.eyebrow} title={t.title} lead={t.lead} />
-      <ul className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {optionOrder.map((id) => (
-          <li key={id} className="reveal flex gap-5 rounded-card bg-paper-deep p-7">
-            <span className="flex size-12 shrink-0 items-center justify-center rounded-full bg-paper text-persimmon">
-              <OptionIcon id={id} />
-            </span>
-            <div>
-              <h3 className="text-lg font-semibold">{t.items[id].title}</h3>
-              <p className="mt-1 text-[0.9375rem] text-ink-soft">{t.items[id].body}</p>
+    <section className="sheet">
+      <div className="shell py-20 md:py-28">
+        <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+          <div>
+            <p className="eyebrow mb-4">{t.eyebrow}</p>
+            <h2 className="display text-[clamp(2.5rem,6.4vw,6rem)]">{t.title}</h2>
+          </div>
+          <p className="max-w-sm text-lg leading-snug text-ink-soft">{t.lead}</p>
+        </div>
+
+        <div
+          className="mt-14 grid gap-y-12 lg:mt-20 lg:grid-cols-[1fr_var(--disc)_1fr] lg:items-stretch"
+          style={{ "--disc": "clamp(17rem, 27vw, 25rem)" } as CSSProperties}
+        >
+          <Callouts ids={optionOrder.slice(0, 3)} side="left" dict={dict} offset={0} />
+          <figure className="relative z-10 mx-auto w-[min(72vw,20rem)] max-lg:order-first lg:w-full">
+            <div className="relative aspect-square rounded-full bg-sky">
+              <svg viewBox="0 0 100 100" aria-hidden className="absolute -inset-[5%] size-[110%] animate-spin-slow text-ink/40">
+                <circle cx="50" cy="50" r="49.5" fill="none" stroke="currentColor" strokeWidth="0.4" strokeDasharray="1.6 1.2" strokeLinecap="round" />
+              </svg>
+              <Image
+                src={toy.src}
+                width={toy.width}
+                height={toy.height}
+                alt=""
+                sizes="240px"
+                className="toy absolute top-1/2 left-1/2 h-[84%] w-auto -translate-x-1/2 -translate-y-1/2 -rotate-3"
+              />
             </div>
-          </li>
-        ))}
-      </ul>
+            <figcaption className="note mt-8 text-center text-ink/60">{t.figure}</figcaption>
+          </figure>
+          <Callouts ids={optionOrder.slice(3)} side="right" dict={dict} offset={3} />
+        </div>
+      </div>
     </section>
   );
 }

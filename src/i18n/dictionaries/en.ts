@@ -10,7 +10,9 @@ const en = {
   hero: {
     lines: ["Made", "to be", "held."],
     meta: ["Plush toy manufacturer", "Neiqiu, Hebei, China", "OEM · ODM · Original design"],
-    drag: "Go on, drag one",
+    drag: "Go on, squeeze one",
+    sizes: "Standard heights",
+    scroll: "Scroll",
     eyebrow: "Plush toy manufacturer · Neiqiu, Hebei, China",
     titleA: "Plush characters,",
     titleB: "made to be",
@@ -50,6 +52,7 @@ const en = {
   },
   options: {
     eyebrow: "Built-in functions",
+    figure: "Fig. 02 — options sewn in during production",
     title: "More than stuffing.",
     lead: "Functional parts are sealed and reinforced during sewing, so the toy stays soft and safe to handle.",
     items: {
@@ -94,7 +97,11 @@ const en = {
     moq: "MOQ & lead time",
     moqValue: "Quoted per project",
     noSummary: "Full specifications are available on request.",
-    included: "Shown with",
+    included: "On this style",
+    sizesTitle: "How big",
+    sizesNote: "Standard finished heights. Any other size is made to order.",
+    optionsTitle: "What can go inside",
+    processTitle: "How an order runs",
     related: "You may also like",
     back: "All collections",
     nameNote: "English names are working translations.",

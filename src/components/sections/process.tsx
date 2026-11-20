@@ -1,60 +1,59 @@
-import Image from "next/image";
-import type { ReactNode } from "react";
-import { cutoutImage } from "@/content";
+"use client";
+
+import { motion, useScroll, useSpring, useTransform } from "motion/react";
+import { useRef, type CSSProperties, type ReactNode } from "react";
 import type { Dictionary } from "@/i18n/get-dictionary";
-import { cn } from "@/lib/cn";
 
-const cards = [
-  { fill: "bg-sky", toy: 719 },
-  { fill: "bg-butter", toy: 713 },
-  { fill: "bg-pink", toy: 717 },
-  { fill: "bg-mint", toy: 714 },
-  { fill: "bg-lilac", toy: 731 },
-];
-
-/** The five steps as cards that pile on top of each other while the page scrolls. */
+/** The five steps on one thread. Scrolling pulls the needle along and leaves the stitches behind it. */
 export function Process({ dict, action }: { dict: Dictionary; action?: ReactNode }) {
   const t = dict.process;
-  return (
-    <section className="shell py-20 md:py-28">
-      <div className="mb-10 flex flex-col gap-6 md:mb-14 md:flex-row md:items-end md:justify-between">
-        <div className="max-w-3xl">
-          <p className="eyebrow mb-4">{t.eyebrow}</p>
-          <h2 className="display text-[clamp(2.75rem,7vw,6.5rem)]">{t.title}</h2>
-          <p className="mt-6 max-w-xl text-lg text-ink-soft">{t.lead}</p>
-        </div>
-        {action}
-      </div>
+  const track = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: track, offset: ["start 0.8", "end 0.6"] });
+  const eased = useSpring(scrollYProgress, { stiffness: 140, damping: 26, mass: 0.4 });
+  const length = useTransform(eased, (value) => (value * 100).toFixed(2) + "%");
 
-      <ol>
-        {t.steps.map((step, i) => {
-          const card = cards[i % cards.length];
-          const toy = cutoutImage(card.toy);
-          return (
-            <li
-              key={step.title}
-              className={cn(
-                "sticky mb-4 grid min-h-[19rem] grid-cols-[1fr_auto] items-end gap-x-6 gap-y-8 overflow-hidden rounded-[2rem] p-7 md:min-h-[24rem] md:grid-cols-[auto_1fr_auto] md:gap-x-14 md:rounded-[2.75rem] md:p-12",
-                card.fill,
-              )}
-              style={{ top: (5.75 + i * 0.85).toFixed(2) + "rem" }}
-            >
-              <span className="display text-[clamp(5.5rem,15vw,13rem)] leading-[0.72]">{String(i + 1).padStart(2, "0")}</span>
-              <Image
-                src={toy.src}
-                width={toy.width}
-                height={toy.height}
-                alt=""
-                className={cn("sticker h-auto justify-self-end md:order-last", toy.width > toy.height * 1.5 ? "w-40 md:w-80" : "w-28 md:w-56", i % 2 ? "rotate-6" : "-rotate-6")}
-              />
-              <div className="col-span-2 max-w-lg md:col-span-1">
-                <h3 className="display text-4xl md:text-6xl">{step.title}</h3>
-                <p className="mt-4 text-lg leading-snug md:text-xl">{step.body}</p>
-              </div>
-            </li>
-          );
-        })}
-      </ol>
+  return (
+    <section className="px-2 md:px-3">
+      <div className="rounded-[2rem] bg-butter md:rounded-[2.75rem]">
+        <div className="shell py-16 md:py-24">
+          <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+            <div className="max-w-3xl">
+              <p className="eyebrow mb-4 !text-ink/70">{t.eyebrow}</p>
+              <h2 className="display text-[clamp(2.5rem,6.4vw,6rem)]">{t.title}</h2>
+            </div>
+            <div className="flex max-w-sm flex-col items-start gap-6">
+              <p className="text-lg leading-snug text-ink/80">{t.lead}</p>
+              {action}
+            </div>
+          </div>
+
+          <div ref={track} className="relative mt-14 md:mt-20">
+            <div className="thread" aria-hidden>
+              <div className="thread-line text-ink/20" />
+              <motion.div className="thread-fill" style={{ "--p": length } as CSSProperties}>
+                <div className="thread-line text-ink" />
+                <svg viewBox="0 0 56 12" className="thread-needle h-3 w-14 text-ink">
+                  <path d="M1 6c10-4 30-5 54 0C31 11 11 10 1 6Z" fill="currentColor" />
+                  <ellipse cx="11" cy="6" rx="4" ry="1.4" className="fill-butter" />
+                </svg>
+              </motion.div>
+            </div>
+
+            <ol className="grid gap-y-10 lg:grid-cols-5 lg:gap-x-8">
+              {t.steps.map((step, i) => (
+                <li key={step.title} className="relative pl-12 lg:pt-12 lg:pl-0">
+                  <span className="absolute top-0 left-0 grid size-6 place-items-center rounded-full bg-ink">
+                    <span className="size-2 rounded-full bg-butter" />
+                  </span>
+                  <span className="display block text-[clamp(3.5rem,6vw,5.5rem)] leading-[0.8] max-lg:-mt-1">{String(i + 1).padStart(2, "0")}</span>
+                  <h3 className="display mt-5 text-[1.75rem] lg:text-[clamp(1.5rem,2vw,2rem)]">{step.title}</h3>
+                  <p className="mt-3 max-w-sm leading-snug text-ink/80">{step.body}</p>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </div>
+      </div>
     </section>
   );
 }

@@ -35,7 +35,7 @@ export function ProductExplorer({ locale, labels }: { locale: Locale; labels: Di
             )}
           >
             {chip.label}
-            <span className="text-xs opacity-55">{chip.count}</span>
+            <span className="note opacity-60">{String(chip.count).padStart(2, "0")}</span>
           </Link>
         ))}
       </nav>
@@ -43,7 +43,7 @@ export function ProductExplorer({ locale, labels }: { locale: Locale; labels: Di
       {active && <p className="mt-8 max-w-xl text-lg text-ink-soft">{getCategory(active).blurb[locale]}</p>}
 
       {list.length ? (
-        <ul className="mt-12 grid gap-x-5 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+        <ul className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {list.map((product) => (
             <li key={product.id}>
               <ProductCard product={product} locale={locale} />

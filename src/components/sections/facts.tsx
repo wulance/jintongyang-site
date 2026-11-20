@@ -14,7 +14,7 @@ export function Facts({ items, note, locale, className }: { items: Fact[]; note:
                 key={fact.label.en}
                 className={cn("flex flex-col-reverse justify-end gap-3 border-paper/15 py-7 lg:px-8 lg:py-4", i % 2 ? "pl-6" : "pr-6", i % 2 ? "border-l" : "", i > 1 ? "max-lg:border-t" : "", i > 0 ? "lg:border-l" : "lg:pl-0")}
               >
-                <dt className="max-w-[14rem] text-sm text-paper/65 md:text-base">{fact.label[locale]}</dt>
+                <dt className="note max-w-[14rem] leading-relaxed text-paper/65 [word-break:keep-all]">{fact.label[locale]}</dt>
                 <dd className="display text-[clamp(3.5rem,9vw,8.5rem)] text-butter">
                   {fact.value}
                   {i === 0 && <sup className="ml-1 align-super font-sans text-lg font-medium tracking-normal text-paper/60">*</sup>}
@@ -22,7 +22,7 @@ export function Facts({ items, note, locale, className }: { items: Fact[]; note:
               </div>
             ))}
           </dl>
-          <p className="mt-8 text-xs text-paper/50">* {note}</p>
+          <p className="note mt-8 text-paper/55 normal-case">* {note}</p>
         </div>
       </div>
     </section>

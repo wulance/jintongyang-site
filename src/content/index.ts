@@ -8,7 +8,7 @@ import type { CategoryId, Product } from "./types";
 
 export * from "./types";
 export { categories, factoryPhotos, products };
-export { company, equipment, facts, standardSizes } from "./company";
+export { company, equipment, facts, standardHeights, standardSizes } from "./company";
 
 type Dimensions = { width: number; height: number };
 
@@ -22,11 +22,17 @@ function asset(dir: "products" | "factory", id: number): ImageAsset {
   return { src: siteConfig.basePath + "/images/" + dir + "/" + id + ".jpg", ...size };
 }
 
-/** Transparent cut-out of a product, for stickers. Only some products have one. */
-export const cutoutImage = (id: number) => ({
-  src: siteConfig.basePath + "/images/cutouts/" + id + ".webp",
-  ...(cutouts as Record<string, { width: number; height: number }>)[String(id)],
-});
+const cutoutSizes = cutouts as Record<string, Dimensions | undefined>;
+
+/** Whether a product has a transparent cut-out. Only some do. */
+export const hasCutout = (id: number) => Boolean(cutoutSizes[String(id)]);
+
+/** Transparent cut-out of a product, with its backdrop removed. */
+export function cutoutImage(id: number): ImageAsset {
+  const size = cutoutSizes[String(id)];
+  if (!size) throw new Error("Missing cut-out " + id + ". Run: python3 scripts/cutouts.py");
+  return { src: siteConfig.basePath + "/images/cutouts/" + id + ".webp", ...size };
+}
 
 export const productImage = (id: number) => asset("products", id);
 export const factoryImage = (id: number) => asset("factory", id);

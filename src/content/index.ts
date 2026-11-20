@@ -1,4 +1,5 @@
 import { siteConfig } from "@/config/site";
+import cutouts from "./cutout-manifest.json";
 import manifest from "./image-manifest.json";
 import { categories } from "./categories";
 import { factoryPhotos } from "./factory";
@@ -20,6 +21,12 @@ function asset(dir: "products" | "factory", id: number): ImageAsset {
   if (!size) throw new Error("Missing image " + dir + "/" + id + ". Run: npm run images");
   return { src: siteConfig.basePath + "/images/" + dir + "/" + id + ".jpg", ...size };
 }
+
+/** Transparent cut-out of a product, for stickers. Only some products have one. */
+export const cutoutImage = (id: number) => ({
+  src: siteConfig.basePath + "/images/cutouts/" + id + ".webp",
+  ...(cutouts as Record<string, { width: number; height: number }>)[String(id)],
+});
 
 export const productImage = (id: number) => asset("products", id);
 export const factoryImage = (id: number) => asset("factory", id);

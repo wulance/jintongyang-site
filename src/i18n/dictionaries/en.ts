@@ -8,6 +8,9 @@ const en = {
   nav: { collections: "Collections", custom: "Custom & OEM", factory: "Factory", contact: "Contact" },
   cta: { brief: "Start a brief", browse: "Browse collections", quote: "Request a quote", all: "View all", menu: "Menu", close: "Close" },
   hero: {
+    lines: ["Made", "to be", "held."],
+    meta: ["Plush toy manufacturer", "Neiqiu, Hebei, China", "OEM · ODM · Original design"],
+    drag: "Go on, drag one",
     eyebrow: "Plush toy manufacturer · Neiqiu, Hebei, China",
     titleA: "Plush characters,",
     titleB: "made to be",
@@ -24,7 +27,7 @@ const en = {
   },
   collections: {
     eyebrow: "Collections",
-    title: "Six lines, all made in-house.",
+    title: "Six lines. Pick one up.",
     lead: "Styles from the Jintongyang showroom. Order them as shown, or adapt the colours, sizes and labels.",
     count: "styles",
   },
@@ -144,6 +147,7 @@ const en = {
     },
   },
   footer: {
+    statement: ["Let's make", "something soft."],
     blurb: "Original design, OEM and ODM plush manufacturing in Neiqiu, Hebei.",
     explore: "Explore",
     contact: "Contact",

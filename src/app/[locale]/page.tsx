@@ -1,6 +1,5 @@
 import { notFound } from "next/navigation";
-import { Closing } from "@/components/sections/closing";
-import { Collections } from "@/components/sections/collections";
+import { CollectionIndex } from "@/components/sections/collection-index";
 import { Facts } from "@/components/sections/facts";
 import { FactoryPreview } from "@/components/sections/factory-preview";
 import { Featured } from "@/components/sections/featured";
@@ -23,20 +22,19 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
     <>
       <Hero locale={locale} dict={dict} />
       <Marquee items={dict.marquee} />
-      <Facts items={facts} note={dict.facts.note} locale={locale} className="py-20 md:py-28" />
+      <CollectionIndex locale={locale} dict={dict} />
       <Featured locale={locale} dict={dict} />
-      <Collections locale={locale} dict={dict} />
       <Process
         dict={dict}
         action={
-          <ButtonLink href={routes.custom(locale)} variant="paper">
+          <ButtonLink href={routes.custom(locale)} variant="ink">
             {dict.process.link}
           </ButtonLink>
         }
       />
+      <Facts items={facts} note={dict.facts.note} locale={locale} />
       <Options dict={dict} />
       <FactoryPreview locale={locale} dict={dict} />
-      <Closing locale={locale} dict={dict} />
     </>
   );
 }

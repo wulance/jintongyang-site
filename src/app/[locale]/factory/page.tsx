@@ -4,7 +4,6 @@ import { getDictionary } from "@/i18n/get-dictionary";
 
 import type { Metadata } from "next";
 import Image from "next/image";
-import { Closing } from "@/components/sections/closing";
 import { Facts } from "@/components/sections/facts";
 import { PageIntro } from "@/components/ui/page-intro";
 import { SectionHeading } from "@/components/ui/section-heading";
@@ -68,8 +67,6 @@ export default async function FactoryPage({ params }: Props) {
           ))}
         </ol>
       </section>
-
-      <Closing locale={locale} dict={dict} />
     </>
   );
 }

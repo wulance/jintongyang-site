@@ -9,6 +9,9 @@ const zh: Dictionary = {
   nav: { collections: "产品系列", custom: "定制代工", factory: "工厂实景", contact: "联系我们" },
   cta: { brief: "提交需求", browse: "浏览产品", quote: "获取报价", all: "查看全部", menu: "菜单", close: "关闭" },
   hero: {
+    lines: ["生来", "就该", "被抱着。"],
+    meta: ["毛绒玩具生产厂家", "河北 · 内丘", "OEM · ODM · 原创设计"],
+    drag: "拖一拖试试",
     eyebrow: "毛绒玩具生产厂家 · 河北内丘",
     titleA: "把一个角色，",
     titleB: "做成抱得住的",
@@ -145,6 +148,7 @@ const zh: Dictionary = {
     },
   },
   footer: {
+    statement: ["一起做点", "软乎乎的。"],
     blurb: "河北内丘 · 原创设计与 OEM / ODM 毛绒玩具生产。",
     explore: "浏览",
     contact: "联系",

@@ -4,7 +4,6 @@ import { getDictionary } from "@/i18n/get-dictionary";
 
 import type { Metadata } from "next";
 import Image from "next/image";
-import { Closing } from "@/components/sections/closing";
 import { Options } from "@/components/sections/options";
 import { Process } from "@/components/sections/process";
 import { ButtonLink } from "@/components/ui/button";
@@ -67,8 +66,6 @@ export default async function CustomPage({ params }: Props) {
           ))}
         </dl>
       </section>
-
-      <Closing locale={locale} dict={dict} />
     </>
   );
 }

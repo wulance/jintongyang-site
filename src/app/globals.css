@@ -1,18 +1,21 @@
 @import "tailwindcss";
 
 @theme {
-  --color-paper: #f8f3ea;
-  --color-paper-deep: #efe8da;
-  --color-ink: #1a2130;
-  --color-ink-soft: #596175;
-  --color-sky: #d5e7f3;
-  --color-sky-deep: #a8cce6;
-  --color-persimmon: #e4572e;
-  --color-persimmon-deep: #c5441f;
-  --color-butter: #f5d98e;
-  --color-line: color-mix(in srgb, #1a2130 14%, transparent);
+  --color-paper: #fff5e1;
+  --color-paper-deep: #f7e8c9;
+  --color-ink: #1b1512;
+  --color-ink-soft: #6b5f57;
+  --color-sky: #a9d8f5;
+  --color-sky-deep: #6fb9ea;
+  --color-persimmon: #ff4a1c;
+  --color-persimmon-deep: #e03a10;
+  --color-butter: #ffd046;
+  --color-pink: #ffb3cf;
+  --color-mint: #a8e0b0;
+  --color-lilac: #c7b6ff;
+  --color-line: color-mix(in srgb, #1b1512 16%, transparent);
 
-  --font-display: "Fraunces Variable", "Songti SC", "Noto Serif CJK SC", "Source Han Serif SC", "STSong", serif;
+  --font-display: "Fraunces Variable", "Noto Serif SC", "Songti SC", "Noto Serif CJK SC", "Source Han Serif SC", "STSong", serif;
   --font-sans: "Instrument Sans Variable", "PingFang SC", "Hiragino Sans GB", "Noto Sans CJK SC", "Microsoft YaHei", system-ui, sans-serif;
 
   --radius-card: 1.75rem;
@@ -20,6 +23,11 @@
 
   --animate-marquee: marquee 38s linear infinite;
   --animate-spin-slow: spin 26s linear infinite;
+  --animate-bob: bob 5s ease-in-out infinite;
+
+  @keyframes bob {
+    50% { transform: translateY(-0.6rem) rotate(1.5deg); }
+  }
 
   @keyframes marquee {
     to { transform: translateX(-50%); }
@@ -52,29 +60,29 @@
 }
 
 @layer components {
-  /* Display type: Fraunces at its softest, set tight. */
+  /* Display type: Fraunces at its heaviest and softest, so the letters look stuffed. */
   .display {
     font-family: var(--font-display);
-    font-weight: 360;
-    font-variation-settings: "SOFT" 100, "WONK" 0;
-    letter-spacing: -0.035em;
-    line-height: 0.98;
+    font-weight: 900;
+    font-variation-settings: "SOFT" 100, "WONK" 1, "opsz" 144;
+    letter-spacing: -0.045em;
+    line-height: 0.92;
     text-wrap: balance;
   }
   .display em {
     font-style: italic;
-    font-weight: 320;
-    color: var(--color-persimmon);
+    font-weight: 900;
+    color: var(--em, var(--color-persimmon));
   }
   :lang(zh-CN) .display {
-    font-weight: 700;
-    letter-spacing: 0;
-    line-height: 1.2;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    line-height: 1.08;
   }
   :lang(zh-CN) .display em,
   :lang(zh-CN) .display .italic {
     font-style: normal;
-    font-weight: 700;
+    font-weight: 900;
   }
 
   .eyebrow {
@@ -122,6 +130,12 @@
 }
 
 @layer utilities {
+  /* Die-cut sticker edge around a transparent cut-out. */
+  .sticker {
+    filter: drop-shadow(3px 0 0 var(--color-paper)) drop-shadow(-3px 0 0 var(--color-paper)) drop-shadow(0 3px 0 var(--color-paper))
+      drop-shadow(0 -3px 0 var(--color-paper)) drop-shadow(0 14px 16px rgb(27 21 18 / 0.22));
+  }
+
   .no-scrollbar { scrollbar-width: none; }
   .no-scrollbar::-webkit-scrollbar { display: none; }
 

@@ -22,18 +22,18 @@ export function SiteHeader({ locale, dict }: { locale: Locale; dict: Dictionary 
       {siteConfig.showPreviewNotice && (
         <p className="bg-ink px-5 py-2 text-center text-xs tracking-wide text-paper/80">{dict.preview}</p>
       )}
-      <header className="sticky top-0 z-30 border-b border-line bg-paper/85 backdrop-blur-md">
-        <div className="shell flex h-[4.5rem] items-center justify-between gap-6">
+      <header className="sticky top-2 z-30 px-2 pt-2 md:top-3 md:px-3 md:pt-3">
+        <div className="mx-auto flex h-16 max-w-[85rem] items-center justify-between gap-6 rounded-full bg-paper/85 pr-2.5 pl-5 shadow-[0_14px_34px_-18px_rgb(27_21_18/0.45)] ring-1 ring-ink/10 backdrop-blur-xl md:pl-7">
           <Link href={routes.home(locale)} aria-label="Jintongyang" className="relative z-50">
             <Logo sub={locale === "zh" ? "金彤阳玩具" : "PLUSH MANUFACTURER"} />
           </Link>
 
-          <nav className="hidden items-center gap-9 text-[0.9375rem] lg:flex">
+          <nav className="hidden items-center gap-1 text-[0.9375rem] font-medium lg:flex">
             {links.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="relative py-2 after:absolute after:inset-x-0 after:bottom-0 after:h-px after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-300 after:ease-soft hover:after:scale-x-100"
+                className="rounded-full px-4 py-2 transition-colors duration-300 hover:bg-ink hover:text-paper"
               >
                 {link.label}
               </Link>
@@ -42,7 +42,7 @@ export function SiteHeader({ locale, dict }: { locale: Locale; dict: Dictionary 
 
           <div className="hidden items-center gap-6 lg:flex">
             <LocaleSwitcher current={locale} />
-            <ButtonLink href={cta.href} variant="ink">
+            <ButtonLink href={cta.href} variant="primary">
               {cta.label}
             </ButtonLink>
           </div>

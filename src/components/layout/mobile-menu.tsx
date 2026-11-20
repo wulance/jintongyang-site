@@ -58,14 +58,14 @@ export function MobileMenu({ locale, links, cta, labels }: Props) {
         createPortal(
           <div
             id="mobile-menu"
-            className="fixed inset-0 z-20 flex flex-col overflow-y-auto bg-paper px-5 pt-32 pb-8 lg:hidden"
+            className="fixed inset-0 z-20 flex flex-col overflow-y-auto bg-persimmon px-5 pt-36 pb-8 lg:hidden"
           >
             <nav className="flex flex-col">
               {links.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="display border-b border-line py-5 text-4xl"
+                  className="display border-b border-ink/20 py-4 text-[3.25rem] text-paper"
                 >
                   {link.label}
                 </Link>
@@ -73,7 +73,7 @@ export function MobileMenu({ locale, links, cta, labels }: Props) {
             </nav>
             <div className="mt-auto flex items-center justify-between">
               <LocaleSwitcher current={locale} className="text-base" />
-              <Link href={cta.href} className={buttonClass("primary", "lg")}>
+              <Link href={cta.href} className={buttonClass("ink", "lg")}>
                 {cta.label}
               </Link>
             </div>

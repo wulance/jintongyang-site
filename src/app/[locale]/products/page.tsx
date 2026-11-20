@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { ProductExplorer } from "@/components/product/product-explorer";
-import { Closing } from "@/components/sections/closing";
 import { PageIntro } from "@/components/ui/page-intro";
 import { isLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/get-dictionary";
@@ -29,7 +28,6 @@ export default async function ProductsPage({ params }: Props) {
         </Suspense>
         {locale === "en" && <p className="mt-14 text-xs text-ink-soft/80">{t.nameNote}</p>}
       </section>
-      <Closing locale={locale} dict={dict} />
     </>
   );
 }

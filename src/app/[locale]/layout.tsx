@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import "@fontsource-variable/fraunces/full.css";
 import "@fontsource-variable/fraunces/full-italic.css";
 import "@fontsource-variable/instrument-sans";
+import "@fontsource/noto-serif-sc/chinese-simplified-900.css";
 import "../globals.css";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";

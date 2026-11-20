@@ -1,36 +1,32 @@
 "use client";
 
+import Image from "next/image";
 import { motion, useScroll, useSpring, useTransform, type MotionValue } from "motion/react";
 import { useRef, type ReactNode } from "react";
+import { siteConfig } from "@/config/site";
 import type { Dictionary } from "@/i18n/get-dictionary";
 
-/** Pattern pieces of the toy: where each sits when sewn, and how far it slides out when laid flat for cutting. */
-const pieces = [
-  { id: "ear-l", d: "M132 92a30 30 0 1 1 42-28", out: [-58, -46], turn: -18 },
-  { id: "ear-r", d: "M226 64a30 30 0 1 1 42 28", out: [58, -46], turn: 18 },
-  { id: "head", d: "M200 52a74 74 0 1 1 0 148a74 74 0 1 1 0-148Z", out: [0, -34], turn: 0 },
-  { id: "body", d: "M200 196c50 0 78 40 78 88s-30 76-78 76s-78-28-78-76s28-88 78-88Z", out: [0, 34], turn: 0 },
-  { id: "arm-l", d: "M130 222c-30 6-48 34-44 62c3 18 26 20 34 2c8-18 14-34 24-46", out: [-70, 8], turn: -22 },
-  { id: "arm-r", d: "M270 222c30 6 48 34 44 62c-3 18-26 20-34 2c-8-18-14-34-24-46", out: [70, 8], turn: 22 },
-  { id: "leg-l", d: "M150 338c-22 4-36 20-32 36c3 12 44 12 56 2c8-8 4-24-6-34", out: [-46, 48], turn: -12 },
-  { id: "leg-r", d: "M250 338c22 4 36 20 32 36c-3 12-44 12-56 2c-8-8-4-24 6-34", out: [46, 48], turn: 12 },
+/** Rendered by scripts/render-toys.py: the lamb as cut pieces, sewn, and with its swing tag, and the two toys that join it. */
+const render = (name: "pieces" | "lead" | "lead-tag" | "friend-bear" | "friend-bunny") => siteConfig.basePath + "/images/story/" + name + ".webp";
+
+/** The designer's sketch that opens the story, as pencil lines on pattern paper. */
+const sketch = [
+  "M130 104c-34-12-58 0-56 18c2 16 30 16 54 0",
+  "M270 104c34-12 58 0 56 18c-2 16-30 16-54 0",
+  "M200 52a74 74 0 1 1 0 148a74 74 0 1 1 0-148Z",
+  "M200 196c50 0 78 40 78 88s-30 76-78 76s-78-28-78-76s28-88 78-88Z",
+  "M130 222c-30 6-48 34-44 62c3 18 26 20 34 2c8-18 14-34 24-46",
+  "M270 222c30 6 48 34 44 62c-3 18-26 20-34 2c-8-18-14-34-24-46",
+  "M150 338c-22 4-36 20-32 36c3 12 44 12 56 2c8-8 4-24-6-34",
+  "M250 338c22 4 36 20 32 36c-3 12-44 12-56 2c-8-8-4-24 6-34",
+  "M172 120v10M228 120v10M190 150q10 9 20 0",
 ];
 
-function Piece({ piece, p }: { piece: (typeof pieces)[number]; p: MotionValue<number> }) {
-  // 0–0.2 drawn, 0.2–0.4 laid out flat, 0.4–0.6 sewn back together, 0.6–0.8 filled.
-  const spread = useTransform(p, [0.2, 0.34, 0.44, 0.58], [0, 1, 1, 0]);
-  const x = useTransform(spread, (v) => v * piece.out[0]);
-  const y = useTransform(spread, (v) => v * piece.out[1]);
-  const rotate = useTransform(spread, (v) => v * piece.turn);
-  const drawn = useTransform(p, [0.02, 0.18], [0, 1]);
-  const fill = useTransform(p, [0.6, 0.76], [0, 1]);
-  const seam = useTransform(p, [0.44, 0.58, 0.68, 0.78], [0, 1, 1, 0]);
+function Layer({ opacity, src }: { opacity: MotionValue<number>; src: string }) {
   return (
-    <motion.g style={{ x, y, rotate, transformOrigin: "200px 210px" }}>
-      <motion.path d={piece.d} className="fill-butter" style={{ opacity: fill }} />
-      <motion.path d={piece.d} fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" style={{ pathLength: drawn }} />
-      <motion.path d={piece.d} fill="none" className="stroke-persimmon" strokeWidth="2.5" strokeDasharray="7 6" strokeLinecap="round" style={{ opacity: seam }} transform="translate(200 210) scale(0.9) translate(-200 -210)" />
-    </motion.g>
+    <motion.div style={{ opacity }} className="absolute inset-0">
+      <Image src={src} alt="" fill sizes="(min-width: 1024px) 55vw, 92vw" loading="lazy" className="object-contain object-bottom" />
+    </motion.div>
   );
 }
 
@@ -48,7 +44,10 @@ function Chapter({ p, index, total, children }: { p: MotionValue<number>; index:
   );
 }
 
-/** One toy being made. The page pins while scrolling draws it, cuts it, sews it, fills it and sends it off. */
+/**
+ * One toy being made. The page pins while scrolling takes it from a sketch to cut pieces, a sewn sample,
+ * a production run and a tagged, inspected toy.
+ */
 export function MakingStory({ dict, action }: { dict: Dictionary; action?: ReactNode }) {
   const t = dict.process;
   const track = useRef<HTMLDivElement>(null);
@@ -56,12 +55,18 @@ export function MakingStory({ dict, action }: { dict: Dictionary; action?: React
   const p = useSpring(scrollYProgress, { stiffness: 160, damping: 30, mass: 0.35 });
   const total = t.steps.length;
 
-  const grid = useTransform(p, [0, 0.2, 0.56, 0.7], [1, 1, 1, 0]);
-  const face = useTransform(p, [0.4, 0.56], [0, 1]);
-  const puff = useTransform(p, [0.6, 0.7, 0.78], [0.94, 1.07, 1]);
+  // 0–0.2 sketch, 0.2–0.4 cut pieces, 0.4–0.6 sewn sample, 0.6–0.8 production run, 0.8–1 inspected and tagged.
+  const paper = useTransform(p, [0.56, 0.7], [1, 0]);
+  const drawn = useTransform(p, [0.02, 0.17], [0, 1]);
+  const sketchOpacity = useTransform(p, [0.19, 0.25], [1, 0]);
+  const pieces = useTransform(p, [0.2, 0.27, 0.4, 0.47], [0, 1, 1, 0]);
+  const piecesScale = useTransform(p, [0.2, 0.4, 0.47], [1.04, 1, 0.82]);
+  const bear = useTransform(p, [0.4, 0.47, 0.86, 0.93], [0, 1, 1, 0]);
+  const puff = useTransform(p, [0.4, 0.48, 0.6, 0.7], [0.86, 1, 1, 0.8]);
+  const crowd = useTransform(p, [0.6, 0.68], [0, 1]);
+  const crowdScale = useTransform(p, [0.6, 0.7], [0.8, 1]);
   const sun = useTransform(p, [0.78, 0.92], [0, 1]);
-  const crowd = useTransform(p, [0.66, 0.8], [0, 1]);
-  const tag = useTransform(p, [0.88, 0.97], [0, 1]);
+  const tagged = useTransform(p, [0.86, 0.93], [0, 1]);
   const bar = useTransform(p, (v) => (v * 100).toFixed(2) + "%");
 
   return (
@@ -78,37 +83,39 @@ export function MakingStory({ dict, action }: { dict: Dictionary; action?: React
 
           {/* Stacked on an upright phone; side by side on desktop and on a phone held sideways, where stacking leaves the toy no room. */}
           <div className="shell grid min-h-0 flex-1 grid-rows-[minmax(0,1fr)_auto] gap-4 pt-4 max-lg:landscape:grid-cols-12 max-lg:landscape:grid-rows-1 max-lg:landscape:gap-6 lg:grid-cols-12 lg:grid-rows-1 lg:gap-10 lg:pt-8">
-            <div className="relative min-h-0 max-lg:landscape:col-span-6 lg:col-span-7">
-              <motion.div style={{ opacity: grid }} className="sheet absolute inset-0 rounded-card ring-1 ring-ink/10" />
-              <motion.div style={{ scale: sun }} className="absolute top-1/2 left-1/2 aspect-square h-[82%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-persimmon" />
-              <svg viewBox="-10 -20 420 460" className="absolute inset-0 size-full text-ink" role="img" aria-label={t.title}>
-                <motion.g style={{ opacity: crowd }}>
-                  <use href="#toy-outline" transform="translate(-30 150) scale(0.55)" />
-                  <use href="#toy-outline" transform="translate(210 150) scale(0.55)" />
-                </motion.g>
-                <defs>
-                  <g id="toy-outline">
-                    {pieces.map((piece) => (
-                      <path key={piece.id} d={piece.d} className="fill-butter" stroke="currentColor" strokeWidth="4" strokeLinejoin="round" />
-                    ))}
-                  </g>
-                </defs>
-                <motion.g style={{ scale: puff, transformOrigin: "200px 220px" }}>
-                  {pieces.map((piece) => (
-                    <Piece key={piece.id} piece={piece} p={p} />
+            <div className="relative min-h-0 max-lg:landscape:col-span-6 lg:col-span-7" role="img" aria-label={t.title}>
+              <motion.div style={{ opacity: paper }} className="sheet absolute inset-0 rounded-card ring-1 ring-ink/10" />
+              <motion.div
+                style={{ scale: sun }}
+                className="absolute top-[46%] left-1/2 aspect-square h-[84%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-persimmon"
+              />
+
+              <motion.svg viewBox="-10 -20 420 460" style={{ opacity: sketchOpacity }} className="absolute inset-0 size-full text-ink/80" aria-hidden>
+                <g fill="none" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round">
+                  {sketch.map((d) => (
+                    <motion.path key={d} d={d} style={{ pathLength: drawn }} />
                   ))}
-                  <motion.g style={{ opacity: face }} fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round">
-                    <path d="M172 120v10M228 120v10" strokeWidth="9" />
-                    <path d="M190 150q10 9 20 0" />
-                    <path d="M200 142v6" className="stroke-persimmon" strokeWidth="9" />
-                  </motion.g>
+                </g>
+                <motion.g style={{ opacity: drawn }} className="text-persimmon" stroke="currentColor" strokeWidth="1.25" strokeDasharray="5 5">
+                  <path d="M200 20v390M70 126h260M70 284h260" />
                 </motion.g>
-                <motion.g style={{ opacity: tag }}>
-                  <path d="M286 300l52-22l14 34l-52 22Z" className="fill-paper" stroke="currentColor" strokeWidth="3" strokeLinejoin="round" />
-                  <circle cx="298" cy="304" r="3.5" className="fill-ink" />
-                  <path d="M312 304l7 7l12-15" fill="none" className="stroke-persimmon" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
-                </motion.g>
-              </svg>
+              </motion.svg>
+
+              <motion.div style={{ scale: piecesScale }} className="absolute inset-[3%]">
+                <Layer opacity={pieces} src={render("pieces")} />
+              </motion.div>
+
+              <motion.div style={{ scale: crowdScale }} className="absolute bottom-[7%] left-[2%] h-[50%] w-[30%] origin-bottom">
+                <Layer opacity={crowd} src={render("friend-bear")} />
+              </motion.div>
+              <motion.div style={{ scale: crowdScale }} className="absolute right-0 bottom-[7%] h-[58%] w-[29%] origin-bottom">
+                <Layer opacity={crowd} src={render("friend-bunny")} />
+              </motion.div>
+
+              <motion.div style={{ scale: puff }} className="absolute inset-x-[14%] top-[6%] bottom-[5%] origin-bottom">
+                <Layer opacity={bear} src={render("lead")} />
+                <Layer opacity={tagged} src={render("lead-tag")} />
+              </motion.div>
             </div>
 
             <div className="relative flex min-h-[11.5rem] flex-col max-lg:landscape:col-span-6 max-lg:landscape:min-h-0 lg:col-span-5 lg:min-h-0">

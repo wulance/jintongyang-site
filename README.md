@@ -56,6 +56,21 @@ https://github.com/CyanoHao/Resource-Han-Rounded/releases and run
 `python3 scripts/subset-fonts.py <folder with the .ttf files>`. A character missing from the subset
 falls back to the system font.
 
+## Story toys
+
+The toys in the home page story (`public/images/story/`) are 3D renders, not photographs of factory
+products: a lamb, a bear and a bunny modelled and lit in `scripts/render-toys.py`. To change them,
+install Blender 4.2 and render each frame (about 10 minutes on 8 CPU cores, no GPU needed):
+
+```
+blender -b -P scripts/render-toys.py -- toy  renders/lamb-toy.png  1100 64 lamb
+blender -b -P scripts/render-toys.py -- tag  renders/lamb-tag.png  1100 64 lamb
+blender -b -P scripts/render-toys.py -- flat renders/lamb-flat.png 1100 80 lamb
+blender -b -P scripts/render-toys.py -- toy  renders/bear-toy.png  1100 80 bear
+blender -b -P scripts/render-toys.py -- toy  renders/bunny-toy.png 1100 80 bunny
+python3 scripts/pack-toys.py renders    # needs Pillow and numpy
+```
+
 ## Before this goes public
 
 - **Image rights.** All photos come from jintongyang.com. Get written permission, including for

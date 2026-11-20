@@ -24,7 +24,7 @@ function Piece({ piece, p }: { piece: (typeof pieces)[number]; p: MotionValue<nu
   const rotate = useTransform(spread, (v) => v * piece.turn);
   const drawn = useTransform(p, [0.02, 0.18], [0, 1]);
   const fill = useTransform(p, [0.6, 0.76], [0, 1]);
-  const seam = useTransform(p, [0.44, 0.6], [0, 1]);
+  const seam = useTransform(p, [0.44, 0.58, 0.68, 0.78], [0, 1, 1, 0]);
   return (
     <motion.g style={{ x, y, rotate, transformOrigin: "200px 210px" }}>
       <motion.path d={piece.d} className="fill-butter" style={{ opacity: fill }} />

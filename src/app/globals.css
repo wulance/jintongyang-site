@@ -256,6 +256,8 @@
   /* One letter of a stuffed headline. It fills up on load and gives when pressed. */
   .puff {
     display: inline-block;
+    /* The heading is as wide as the page; only its letters take the pointer, so the toys beside it stay pressable. */
+    pointer-events: auto;
     transform-origin: 50% 100%;
     transition:
       transform 0.7s var(--ease-plush),

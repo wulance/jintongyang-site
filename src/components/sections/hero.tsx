@@ -25,7 +25,7 @@ export function Hero({ locale, dict }: { locale: Locale; dict: Dictionary }) {
           <h1
             aria-label={t.lines.join(zh ? "" : " ")}
             className={
-              "display relative z-20 max-lg:mt-6 max-lg:mb-7 " +
+              "display pointer-events-none relative z-20 max-lg:mt-6 max-lg:mb-7 " +
               (zh
                 ? "text-[clamp(4rem,min(21vw,19svh),13rem)] leading-[1.06] lg:text-[clamp(4rem,min(13.5vw,18.5svh),13rem)]"
                 : "text-[clamp(4.5rem,min(24vw,21svh),15rem)] leading-[0.82] lg:text-[clamp(4.5rem,min(15vw,22.5svh),15rem)]")

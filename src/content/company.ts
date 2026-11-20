@@ -43,3 +43,6 @@ export const standardSizes: Localized = {
   en: "8, 10 and 15 inch as standard; other sizes to order",
   zh: "常规八寸、十寸、十五寸，其他尺寸可定制",
 };
+
+/** The standard finished heights above, in inches, for the size chart. */
+export const standardHeights = [8, 10, 15];

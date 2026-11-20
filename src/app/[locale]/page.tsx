@@ -1,10 +1,10 @@
 import { notFound } from "next/navigation";
+import { Capabilities } from "@/components/sections/capabilities";
 import { CollectionIndex } from "@/components/sections/collection-index";
 import { Facts } from "@/components/sections/facts";
 import { FactoryPreview } from "@/components/sections/factory-preview";
 import { Featured } from "@/components/sections/featured";
 import { Hero } from "@/components/sections/hero";
-import { Marquee } from "@/components/sections/marquee";
 import { Options } from "@/components/sections/options";
 import { Process } from "@/components/sections/process";
 import { ButtonLink } from "@/components/ui/button";
@@ -21,7 +21,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
   return (
     <>
       <Hero locale={locale} dict={dict} />
-      <Marquee items={dict.marquee} />
+      <Capabilities items={dict.marquee} />
       <CollectionIndex locale={locale} dict={dict} />
       <Featured locale={locale} dict={dict} />
       <Process
@@ -32,7 +32,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
           </ButtonLink>
         }
       />
-      <Facts items={facts} note={dict.facts.note} locale={locale} className="pb-20 md:pb-28" />
+      <Facts items={facts} note={dict.facts.note} locale={locale} className="pt-2 md:pt-3" />
       <Options dict={dict} />
       <FactoryPreview locale={locale} dict={dict} />
     </>

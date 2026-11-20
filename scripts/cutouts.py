@@ -11,7 +11,7 @@ and src/content/cutout-manifest.json (pixel sizes, used to reserve layout space)
 import json
 from pathlib import Path
 
-from PIL import Image
+from PIL import Image, ImageFilter
 from rembg import new_session, remove
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -24,6 +24,8 @@ manifest = {}
 for pid in IDS:
     image = Image.open(ROOT / f"public/images/products/{pid}.jpg").convert("RGB")
     cut = remove(image, session=session, post_process_mask=True)
+    # Pull the edge in a few pixels and soften it, so no backdrop colour is left as a fringe.
+    cut.putalpha(cut.getchannel("A").filter(ImageFilter.MinFilter(7)).filter(ImageFilter.GaussianBlur(1.2)))
     cut = cut.crop(cut.getchannel("A").point(lambda a: 255 if a > 12 else 0).getbbox())
     cut.save(out_dir / f"{pid}.webp", quality=88, method=6)
     manifest[str(pid)] = {"width": cut.width, "height": cut.height}

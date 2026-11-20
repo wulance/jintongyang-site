@@ -9,9 +9,11 @@ const zh: Dictionary = {
   nav: { collections: "产品系列", custom: "定制代工", factory: "工厂实景", contact: "联系我们" },
   cta: { brief: "提交需求", browse: "浏览产品", quote: "获取报价", all: "查看全部", menu: "菜单", close: "关闭" },
   hero: {
-    lines: ["生来", "就该", "被抱着。"],
+    lines: ["生来", "就该", "被抱着"],
     meta: ["毛绒玩具生产厂家", "河北 · 内丘", "OEM · ODM · 原创设计"],
-    drag: "拖一拖试试",
+    drag: "捏一下试试",
+    sizes: "常规高度",
+    scroll: "向下",
     eyebrow: "毛绒玩具生产厂家 · 河北内丘",
     titleA: "把一个角色，",
     titleB: "做成抱得住的",
@@ -28,7 +30,7 @@ const zh: Dictionary = {
   },
   collections: {
     eyebrow: "产品系列",
-    title: "六条产品线，全部自有车间生产。",
+    title: "六条产品线\n自有车间生产",
     lead: "来自金彤阳展厅的款式，可按现款下单，也可调整颜色、尺寸与标识。",
     count: "款",
   },
@@ -38,7 +40,7 @@ const zh: Dictionary = {
   },
   process: {
     eyebrow: "定制代工",
-    title: "从一张图稿，到一批成品。",
+    title: "从一张图稿\n到一批成品",
     lead: "有图稿、参考照片，或只有一段描述都可以。从打样到出货由同一位业务专员跟进。",
     steps: [
       { title: "提交需求", body: "提供图稿或参考图，以及目标尺寸、数量、市场和交期。" },
@@ -51,7 +53,8 @@ const zh: Dictionary = {
   },
   options: {
     eyebrow: "功能定制",
-    title: "不只是填充。",
+    figure: "图 02 — 缝制环节可加入的功能",
+    title: "不只是填充",
     lead: "功能配件在缝制环节完成密封与加固，保证手感柔软、使用安全。",
     items: {
       light: { title: "发光灯组", body: "适用于发光玩偶和小夜灯。" },
@@ -64,7 +67,7 @@ const zh: Dictionary = {
   },
   factory: {
     eyebrow: "工厂实景",
-    title: "柔软的东西，认真地做。",
+    title: "柔软的东西\n认真地做",
     lead: "绣花、裁剪、缝纫、充棉各有独立区域。这是客户到厂能看到的样子。",
     link: "查看工厂实景",
     pageTitle: "走进车间",
@@ -78,7 +81,7 @@ const zh: Dictionary = {
     ],
   },
   closing: {
-    title: "说说你想做什么。",
+    title: "说说你想做什么",
     lead: "一张草图、一个数量、一个日期就可以开始。我们会回复问题、方案和报价。",
     checklist: ["图稿或参考照片", "尺寸与数量", "目标市场", "交货日期"],
   },
@@ -95,13 +98,17 @@ const zh: Dictionary = {
     moq: "起订量与交期",
     moqValue: "按项目报价",
     noSummary: "详细规格可联系索取。",
-    included: "实拍",
+    included: "本款已配",
+    sizesTitle: "有多大",
+    sizesNote: "常规成品高度，其他尺寸可按需定制。",
+    optionsTitle: "里面可以加什么",
+    processTitle: "下单之后",
     related: "相关款式",
     back: "全部系列",
     nameNote: "中文品名以官网为准。",
   },
   custom: {
-    title: "你的角色，从零做起。",
+    title: "你的角色\n从零做起",
     lead: "OEM 与 ODM 是金彤阳的核心业务。无论是成熟的图稿还是初步想法，都由同一支团队完成打样并推向量产。",
     typesTitle: "可定制品类",
     types: ["毛绒玩具与公仔", "品牌吉祥物", "抱枕靠垫", "钥匙挂件", "抓机娃娃", "节日与婚庆礼品"],
@@ -117,7 +124,7 @@ const zh: Dictionary = {
     ],
   },
   contact: {
-    title: "提交需求。",
+    title: "提交需求",
     lead: "填写已知信息即可，带 * 为必填。",
     detailsTitle: "联系工厂",
     person: "联系人",
@@ -148,7 +155,7 @@ const zh: Dictionary = {
     },
   },
   footer: {
-    statement: ["一起做点", "软乎乎的。"],
+    statement: ["一起做点", "软乎乎的"],
     blurb: "河北内丘 · 原创设计与 OEM / ODM 毛绒玩具生产。",
     explore: "浏览",
     contact: "联系",
@@ -156,7 +163,7 @@ const zh: Dictionary = {
     rights: "版权所有。",
     disclaimer: "产品图片与企业数据引自 jintongyang.com，仅用于本提案。",
   },
-  notFound: { title: "这个页面走丢了。", back: "返回首页" },
+  notFound: { title: "这个页面走丢了", back: "返回首页" },
 };
 
 export default zh;

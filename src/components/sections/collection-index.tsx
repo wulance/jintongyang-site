@@ -11,7 +11,7 @@ import type { Dictionary } from "@/i18n/get-dictionary";
 import { cn } from "@/lib/cn";
 import { routes } from "@/lib/routes";
 
-const fills = ["bg-sky", "bg-butter", "bg-pink", "bg-mint", "bg-lilac", "bg-persimmon"];
+const fills = ["bg-butter", "bg-sky", "bg-persimmon"];
 
 /** The collections as an oversized index. Hovering a row floods it with colour and floats its photo beside the cursor. */
 export function CollectionIndex({ locale, dict }: { locale: Locale; dict: Dictionary }) {
@@ -28,7 +28,7 @@ export function CollectionIndex({ locale, dict }: { locale: Locale; dict: Dictio
       <div className="mb-10 flex flex-col gap-5 md:mb-14 md:flex-row md:items-end md:justify-between">
         <div>
           <p className="eyebrow mb-4">{t.eyebrow}</p>
-          <h2 className="display text-[clamp(2.75rem,7vw,6.5rem)]">{t.title}</h2>
+          <h2 className="display text-[clamp(2.5rem,7vw,6.5rem)]">{t.title}</h2>
         </div>
         <p className="max-w-sm text-lg text-ink-soft">{t.lead}</p>
       </div>
@@ -49,13 +49,13 @@ export function CollectionIndex({ locale, dict }: { locale: Locale; dict: Dictio
               className="group relative isolate flex items-center gap-4 border-t border-ink/20 py-5 md:gap-8 md:py-6"
             >
               <span className={cn("absolute inset-x-0 inset-y-px -z-10 origin-bottom scale-y-0 rounded-2xl transition-transform duration-500 ease-soft group-hover:scale-y-100", fills[i % fills.length])} />
-              <span className="w-7 text-sm font-semibold tabular-nums transition-transform duration-500 ease-soft group-hover:translate-x-4 md:w-10">
+              <span className="note w-7 transition-transform duration-500 ease-soft group-hover:translate-x-4 md:w-10">
                 {String(i + 1).padStart(2, "0")}
               </span>
               <span className="display text-[clamp(2rem,6.4vw,6rem)] transition-transform duration-500 ease-soft group-hover:translate-x-4">
                 {category.name[locale]}
               </span>
-              <span className="ml-auto hidden text-sm font-medium whitespace-nowrap md:block">
+              <span className="note ml-auto hidden whitespace-nowrap md:block">
                 {getByCategory(category.id).length} {t.count}
               </span>
               <Image

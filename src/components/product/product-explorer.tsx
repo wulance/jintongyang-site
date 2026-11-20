@@ -72,7 +72,7 @@ export function ProductExplorer({ locale, labels, optionLabels }: Props) {
                 <li key={product.id} className="border-b border-ink/25">
                   <Link
                     href={routes.product(locale, product.slug)}
-                    className="group grid grid-cols-[minmax(0,1fr)_5.5rem] items-center gap-x-5 py-4 transition-colors duration-300 hover:bg-ink hover:text-paper md:grid-cols-[9rem_minmax(0,5fr)_minmax(0,3fr)_minmax(0,3fr)_9rem] md:py-5 lg:grid-cols-[13rem_minmax(0,5fr)_minmax(0,3fr)_minmax(0,3fr)_11rem]"
+                    className="group grid grid-cols-[minmax(0,1fr)_5.5rem] items-center gap-x-5 py-4 transition-colors duration-300 hover:bg-ink hover:text-paper md:grid-cols-[9rem_minmax(0,5fr)_minmax(0,3fr)_minmax(0,3fr)_9rem] md:py-3 lg:grid-cols-[13rem_minmax(0,5fr)_minmax(0,3fr)_minmax(0,3fr)_11rem]"
                   >
                     <span className="max-md:hidden pl-0 transition-[padding] duration-500 ease-plush group-hover:pl-4">
                       <span className="note block text-current/50">JTY</span>

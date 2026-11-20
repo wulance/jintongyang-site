@@ -12,8 +12,8 @@ const pieces = [
   { id: "body", d: "M200 196c50 0 78 40 78 88s-30 76-78 76s-78-28-78-76s28-88 78-88Z", out: [0, 34], turn: 0 },
   { id: "arm-l", d: "M130 222c-30 6-48 34-44 62c3 18 26 20 34 2c8-18 14-34 24-46", out: [-70, 8], turn: -22 },
   { id: "arm-r", d: "M270 222c30 6 48 34 44 62c-3 18-26 20-34 2c-8-18-14-34-24-46", out: [70, 8], turn: 22 },
-  { id: "leg-l", d: "M150 338c-22 4-36 20-32 36c3 12 44 12 56 2c8-8 4-24-6-34", out: [-46, 62], turn: -12 },
-  { id: "leg-r", d: "M250 338c22 4 36 20 32 36c-3 12-44 12-56 2c-8-8-4-24 6-34", out: [46, 62], turn: 12 },
+  { id: "leg-l", d: "M150 338c-22 4-36 20-32 36c3 12 44 12 56 2c8-8 4-24-6-34", out: [-46, 48], turn: -12 },
+  { id: "leg-r", d: "M250 338c22 4 36 20 32 36c-3 12-44 12-56 2c-8-8-4-24 6-34", out: [46, 48], turn: 12 },
 ];
 
 function Piece({ piece, p }: { piece: (typeof pieces)[number]; p: MotionValue<number> }) {
@@ -37,8 +37,10 @@ function Piece({ piece, p }: { piece: (typeof pieces)[number]; p: MotionValue<nu
 function Chapter({ p, index, total, children }: { p: MotionValue<number>; index: number; total: number; children: ReactNode }) {
   const start = index / total;
   const end = (index + 1) / total;
-  const opacity = useTransform(p, [start - 0.04, start + 0.03, end - 0.05, end + 0.02], [index === 0 ? 1 : 0, 1, 1, index === total - 1 ? 1 : 0]);
-  const y = useTransform(p, [start - 0.04, start + 0.03, end - 0.05, end + 0.02], [index === 0 ? 0 : 28, 0, 0, index === total - 1 ? 0 : -28]);
+  // A chapter is gone before the next one starts to appear, so two are never readable at once.
+  const stops = [start, start + 0.02, end - 0.02, end];
+  const opacity = useTransform(p, stops, [index === 0 ? 1 : 0, 1, 1, index === total - 1 ? 1 : 0]);
+  const y = useTransform(p, stops, [index === 0 ? 0 : 28, 0, 0, index === total - 1 ? 0 : -28]);
   return (
     <motion.li style={{ opacity, y }} className="absolute inset-0 flex flex-col justify-center">
       {children}
@@ -79,7 +81,7 @@ export function MakingStory({ dict, action }: { dict: Dictionary; action?: React
             <div className="relative min-h-0 max-lg:landscape:col-span-6 lg:col-span-7">
               <motion.div style={{ opacity: grid }} className="sheet absolute inset-0 rounded-card ring-1 ring-ink/10" />
               <motion.div style={{ scale: sun }} className="absolute top-1/2 left-1/2 aspect-square h-[82%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-persimmon" />
-              <svg viewBox="0 0 400 420" className="absolute inset-0 size-full text-ink" role="img" aria-label={t.title}>
+              <svg viewBox="-10 -20 420 460" className="absolute inset-0 size-full text-ink" role="img" aria-label={t.title}>
                 <motion.g style={{ opacity: crowd }}>
                   <use href="#toy-outline" transform="translate(-30 150) scale(0.55)" />
                   <use href="#toy-outline" transform="translate(210 150) scale(0.55)" />

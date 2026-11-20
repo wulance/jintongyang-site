@@ -12,7 +12,7 @@ Next.js 15 (App Router) · TypeScript · Tailwind CSS 4 · Zod
 ```bash
 npm install
 npm run dev        # http://localhost:3000
-npm run build && npm start
+npm run build      # static export to out/
 npm run lint
 npm run typecheck
 npm run images     # rebuild public/images from assets/source
@@ -24,12 +24,12 @@ npm run images     # rebuild public/images from assets/source
 assets/source/        original images archived from jintongyang.com (never edited)
 scripts/              prepare-images.mjs: crops, removes size-chart stickers, upscales
 src/app/[locale]/     pages: home, products, products/[slug], custom, factory, contact
-src/app/api/inquiry/  POST endpoint for the inquiry form (validates; delivery not wired)
 src/components/       layout / sections / product / inquiry / ui
 src/content/          typed data: company, categories, products, factory photos
 src/i18n/             locale config and the en / zh dictionaries
 src/lib/              routes, inquiry schema, helpers
-src/middleware.ts     redirects "/" to /en or /zh by Accept-Language
+public/index.html     sends "/" to /en/ or /zh/ by browser language
+.github/workflows/    builds and publishes to GitHub Pages on every push to main
 ```
 
 To add a product: put the image in `assets/source/products/<id>.jpg`, add it to
@@ -44,7 +44,8 @@ To add a product: put the image in `assets/source/products/<id>.jpg`, add it to
 - **Catalogue.** 26 of the 43 items on the source site are included. The rest are left out because
   their only photo is a multi-product poster, shows a model, or resembles third-party characters.
   English product names are working translations.
-- **Inquiry delivery.** `deliver()` in `src/app/api/inquiry/route.ts` returns `false`; connect it to
-  email or a CRM. Until then the form says clearly that nothing was sent.
+- **Inquiry delivery.** The site is a static export, so the form posts JSON to
+  `NEXT_PUBLIC_INQUIRY_ENDPOINT` (e.g. a Formspree form URL). It is unset, so the form validates
+  and then says clearly that nothing was sent.
 - **Logo.** `src/components/ui/logo.tsx` is a placeholder mark.
 - **Preview bar and noindex.** Set `NEXT_PUBLIC_PREVIEW_NOTICE=off` and `NEXT_PUBLIC_SITE_URL` at launch.

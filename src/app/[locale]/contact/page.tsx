@@ -4,26 +4,21 @@ import { getDictionary } from "@/i18n/get-dictionary";
 
 import type { Metadata } from "next";
 import { InquiryForm } from "@/components/inquiry/inquiry-form";
-import { company, getProduct, itemCode } from "@/content";
+import { Suspense } from "react";
+import { company } from "@/content";
 
-interface Props {
-  params: Promise<{ locale: string }>;
-  searchParams: Promise<{ product?: string }>;
-}
+type Props = { params: Promise<{ locale: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   return isLocale(locale) ? { title: getDictionary(locale).nav.contact } : {};
 }
 
-export default async function ContactPage({ params, searchParams }: Props) {
+export default async function ContactPage({ params }: Props) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
   const dict = getDictionary(locale);
   const t = dict.contact;
-
-  const { product: slug } = await searchParams;
-  const product = slug ? getProduct(slug) : undefined;
 
   const details = [
     { label: t.company, value: company.legalName[locale] },
@@ -53,11 +48,9 @@ export default async function ContactPage({ params, searchParams }: Props) {
       <div className="lg:col-span-7">
         <div className="rounded-[2.25rem] bg-paper-deep p-6 md:p-10">
           <p className="mb-8 text-ink-soft">{t.lead}</p>
-          <InquiryForm
-            locale={locale}
-            labels={t.form}
-            defaultProduct={product ? product.name[locale] + " (" + itemCode(product) + ")" : ""}
-          />
+          <Suspense>
+            <InquiryForm locale={locale} labels={t.form} />
+          </Suspense>
         </div>
       </div>
     </section>

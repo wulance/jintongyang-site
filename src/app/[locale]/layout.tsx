@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
     openGraph: {
       title: dict.meta.title,
       description: dict.meta.description,
-      images: ["/images/products/708.jpg"],
+      images: [siteConfig.basePath + "/images/products/708.jpg"],
       locale: htmlLang[locale],
       type: "website",
     },

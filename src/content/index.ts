@@ -1,3 +1,4 @@
+import { siteConfig } from "@/config/site";
 import manifest from "./image-manifest.json";
 import { categories } from "./categories";
 import { factoryPhotos } from "./factory";
@@ -17,7 +18,7 @@ export interface ImageAsset extends Dimensions {
 function asset(dir: "products" | "factory", id: number): ImageAsset {
   const size = (manifest[dir] as Record<string, Dimensions | undefined>)[String(id)];
   if (!size) throw new Error("Missing image " + dir + "/" + id + ". Run: npm run images");
-  return { src: "/images/" + dir + "/" + id + ".jpg", ...size };
+  return { src: siteConfig.basePath + "/images/" + dir + "/" + id + ".jpg", ...size };
 }
 
 export const productImage = (id: number) => asset("products", id);

@@ -4,6 +4,8 @@ import { products } from "@/content";
 import { locales } from "@/i18n/config";
 import { routes } from "@/lib/routes";
 
+export const dynamic = "force-static";
+
 export default function sitemap(): MetadataRoute.Sitemap {
   return locales.flatMap((locale) =>
     [
@@ -13,6 +15,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       routes.factory(locale),
       routes.contact(locale),
       ...products.map((product) => routes.product(locale, product.slug)),
-    ].map((path) => ({ url: siteConfig.url + path })),
+    ].map((path) => ({ url: siteConfig.url + siteConfig.basePath + path + "/" })),
   );
 }

@@ -1,6 +1,9 @@
 "use client";
 
+import { useSearchParams } from "next/navigation";
 import { useState, type FormEvent } from "react";
+import { siteConfig } from "@/config/site";
+import { getProduct, itemCode } from "@/content";
 import { buttonClass } from "@/components/ui/button";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/get-dictionary";
@@ -11,7 +14,9 @@ type Status = "idle" | "sending" | "sent" | "demo" | "invalid" | "failed";
 
 const projectTypes = ["custom", "oem", "wholesale", "other"] as const;
 
-export function InquiryForm({ locale, labels, defaultProduct }: { locale: Locale; labels: Labels; defaultProduct: string }) {
+export function InquiryForm({ locale, labels }: { locale: Locale; labels: Labels }) {
+  const product = getProduct(useSearchParams().get("product") ?? "");
+  const defaultProduct = product ? product.name[locale] + " (" + itemCode(product) + ")" : "";
   const [status, setStatus] = useState<Status>("idle");
   const [invalid, setInvalid] = useState<string[]>([]);
 
@@ -26,17 +31,19 @@ export function InquiryForm({ locale, labels, defaultProduct }: { locale: Locale
     }
 
     setInvalid([]);
+    // No endpoint configured: say so instead of pretending the brief was sent.
+    if (!siteConfig.inquiryEndpoint || parsed.data.website) return setStatus("demo");
+
     setStatus("sending");
     try {
-      const response = await fetch("/api/inquiry", {
+      const response = await fetch(siteConfig.inquiryEndpoint, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify(parsed.data),
       });
-      const result: { ok: boolean; delivered?: boolean } = await response.json();
-      if (!result.ok) return setStatus("failed");
-      setStatus(result.delivered ? "sent" : "demo");
-      if (result.delivered) form.reset();
+      if (!response.ok) return setStatus("failed");
+      setStatus("sent");
+      form.reset();
     } catch {
       setStatus("failed");
     }

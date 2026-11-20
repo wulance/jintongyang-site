@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && node -e \"require('fs').copyFileSync('out/en/404/index.html','out/404.html')\"",
     "start": "next start",
     "lint": "eslint",
     "images": "node scripts/prepare-images.mjs",

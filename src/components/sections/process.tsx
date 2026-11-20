@@ -45,7 +45,7 @@ export function Process({ dict, action }: { dict: Dictionary; action?: ReactNode
                 width={toy.width}
                 height={toy.height}
                 alt=""
-                className={cn("sticker h-auto w-28 justify-self-end md:order-last md:w-56", i % 2 ? "rotate-6" : "-rotate-6")}
+                className={cn("sticker h-auto justify-self-end md:order-last", toy.width > toy.height * 1.5 ? "w-40 md:w-80" : "w-28 md:w-56", i % 2 ? "rotate-6" : "-rotate-6")}
               />
               <div className="col-span-2 max-w-lg md:col-span-1">
                 <h3 className="display text-4xl md:text-6xl">{step.title}</h3>

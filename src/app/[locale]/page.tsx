@@ -32,7 +32,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
           </ButtonLink>
         }
       />
-      <Facts items={facts} note={dict.facts.note} locale={locale} />
+      <Facts items={facts} note={dict.facts.note} locale={locale} className="pb-20 md:pb-28" />
       <Options dict={dict} />
       <FactoryPreview locale={locale} dict={dict} />
     </>

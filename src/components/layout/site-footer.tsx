@@ -81,15 +81,15 @@ export function SiteFooter({ locale, dict }: { locale: Locale; dict: Dictionary 
           </div>
         </div>
 
-        <div aria-hidden className="relative mt-10 select-none md:mt-4">
+        <div aria-hidden className="relative mt-24 select-none md:mt-32">
           <Image
             src={penguin.src}
             width={penguin.width}
             height={penguin.height}
             alt=""
-            className="absolute right-[9%] bottom-[46%] h-auto w-[19vw] max-w-64 md:right-[11%]"
+            className="absolute right-[7%] bottom-[58%] h-auto w-[17vw] max-w-56"
           />
-          <p lang="en" className="display relative translate-y-[14%] text-center text-[19.2vw] leading-[0.74] whitespace-nowrap text-paper">
+          <p lang="en" className="display relative translate-y-[14%] text-center text-[15.4vw] leading-[0.74] whitespace-nowrap text-paper">
             Jintongyang
           </p>
         </div>

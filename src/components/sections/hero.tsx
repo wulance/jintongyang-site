@@ -57,7 +57,7 @@ export function Hero({ locale, dict }: { locale: Locale; dict: Dictionary }) {
           </em>
         </h1>
 
-        <div className="relative z-10 -mt-[4vw] flex flex-1 flex-col md:-mt-[5.5vw]">
+        <div className="relative z-10 -mt-[4vw] flex flex-1 flex-col md:-mt-[2vw]">
           <HeroStage items={items} labels={{ prev: t.prev, next: t.next, view: t.view, squeeze: t.drag }} />
         </div>
 

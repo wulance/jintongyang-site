@@ -45,12 +45,19 @@ the toys, which give when pressed. The serious half is the spec-sheet layer: pat
 monospaced annotations, running-stitch rules, call-out lines. The red disc is the sun in the
 company name (彤阳).
 
-Colour is paper, ink and persimmon, with butter and sky as the only supporting tones.
+The site is a dark studio, so the toys are the brightest thing on every screen. The home page opens
+on a stage where the designs in `src/content/lineup.ts` take turns in a spotlight of their own
+colour, each named with the details its designer decided. Below it a toy turns as the page
+scrolls, with a design note for each side.
+
+Colour is paper (the unlit stage), ink (the light on it) and persimmon, with butter and sky as the
+only supporting tones. Text on a butter or sky surface takes the `lit` utility, which swaps ink and
+paper.
 
 ## Chinese fonts
 
 Chinese text is set in Resource Han Rounded CN (SIL OFL 1.1). The full fonts are about 14 MB a
-weight, so `src/fonts/` holds subsets with only the characters used in `src/` (about 85 KB each).
+weight, so `src/fonts/` holds subsets with only the characters used in `src/` (about 95 KB each).
 After changing Chinese copy or product names, download the fonts from
 https://github.com/CyanoHao/Resource-Han-Rounded/releases and run
 `python3 scripts/subset-fonts.py <folder with the .ttf files>`. A character missing from the subset
@@ -69,6 +76,16 @@ blender -b -P scripts/render-toys.py -- flat renders/lamb-flat.png 1100 80 lamb
 blender -b -P scripts/render-toys.py -- toy  renders/bear-toy.png  1100 80 bear
 blender -b -P scripts/render-toys.py -- toy  renders/bunny-toy.png 1100 80 bunny
 python3 scripts/pack-toys.py renders    # needs Pillow and numpy
+```
+
+The bear that turns on the home page (`public/images/turntable/`) is the same model rendered from
+32 angles, 11.25° apart (about 2 minutes a frame):
+
+```
+for i in $(seq 0 31); do
+  blender -b -P scripts/render-toys.py -- toy turn/$(printf %02d $i).png 720 48 bear $(echo "$i * 11.25" | bc)
+done
+python3 scripts/pack-toys.py turn turntable
 ```
 
 ## Before this goes public

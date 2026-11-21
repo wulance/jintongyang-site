@@ -20,10 +20,10 @@ export function SiteHeader({ locale, dict }: { locale: Locale; dict: Dictionary 
   return (
     <>
       {siteConfig.showPreviewNotice && (
-        <p className="bg-ink px-5 py-2 text-center text-xs tracking-wide text-paper/80">{dict.preview}</p>
+        <p className="bg-paper-deep px-5 py-2 text-center text-xs tracking-wide text-ink/70">{dict.preview}</p>
       )}
       <header className="sticky top-2 z-30 px-2 pt-2 md:top-3 md:px-3 md:pt-3">
-        <div className="mx-auto flex h-16 max-w-[85rem] items-center justify-between gap-6 rounded-full bg-paper/85 pr-2.5 pl-5 shadow-[0_14px_34px_-18px_rgb(27_21_18/0.45)] ring-1 ring-ink/10 backdrop-blur-xl md:pl-7">
+        <div className="mx-auto flex h-16 max-w-[85rem] items-center justify-between gap-6 rounded-full bg-paper/85 pr-2.5 pl-5 shadow-[0_14px_34px_-18px_rgb(0_0_0/0.8)] ring-1 ring-ink/10 backdrop-blur-xl md:pl-7">
           <Link href={routes.home(locale)} aria-label="Jintongyang" className="relative z-50">
             <Logo sub={locale === "zh" ? "金彤阳玩具" : "PLUSH MANUFACTURER"} />
           </Link>

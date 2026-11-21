@@ -6,7 +6,7 @@ import { Arrow } from "./arrow";
 const variants = {
   primary: "bg-persimmon text-white hover:bg-persimmon-deep",
   ink: "bg-ink text-paper hover:bg-ink/85",
-  paper: "bg-paper text-ink hover:bg-white",
+  paper: "bg-paper text-ink hover:bg-paper-deep",
   ghost: "text-ink ring-1 ring-inset ring-ink/20 hover:ring-ink/60",
 };
 

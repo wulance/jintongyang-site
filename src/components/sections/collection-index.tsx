@@ -46,7 +46,7 @@ export function CollectionIndex({ locale, dict }: { locale: Locale; dict: Dictio
             <Link
               href={routes.products(locale, category.id)}
               onMouseEnter={() => setActive(i)}
-              className="group relative isolate flex items-center gap-4 border-t border-ink/20 py-5 md:gap-8 md:py-6"
+              className="group relative isolate flex items-center gap-4 border-t border-ink/20 py-5 transition-colors duration-500 ease-soft hover:lit md:gap-8 md:py-6"
             >
               <span className={cn("absolute inset-x-0 inset-y-px -z-10 origin-bottom scale-y-0 rounded-2xl transition-transform duration-500 ease-soft group-hover:scale-y-100", fills[i % fills.length])} />
               <span className="note w-7 transition-transform duration-500 ease-soft group-hover:translate-x-4 md:w-10">
@@ -80,7 +80,7 @@ export function CollectionIndex({ locale, dict }: { locale: Locale; dict: Dictio
         transition={{ type: "spring", stiffness: 260, damping: 22 }}
         className="pointer-events-none fixed top-0 left-0 z-40 hidden md:block"
       >
-        <div className="relative -mt-44 ml-8 aspect-[4/3] w-80 overflow-hidden rounded-3xl border-4 border-paper shadow-2xl">
+        <div className="relative -mt-44 ml-8 aspect-[4/3] w-80 overflow-hidden rounded-3xl border-4 border-ink shadow-2xl">
           {categories.map((category, i) => (
             <Image
               key={category.id}

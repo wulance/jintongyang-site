@@ -1,7 +1,9 @@
 """Crop the renders from scripts/render-toys.py and write them into the site as WebP.
 
    python3 scripts/pack-toys.py <dir with lamb-toy.png, lamb-tag.png, lamb-flat.png, bear-toy.png, bunny-toy.png>
+   python3 scripts/pack-toys.py <dir with the turntable frames 00.png, 01.png, ...> turntable
 """
+import glob
 import os
 import sys
 
@@ -9,7 +11,8 @@ import numpy as np
 from PIL import Image, ImageFilter
 
 SRC = sys.argv[1]
-OUT = os.path.join(os.path.dirname(__file__), "..", "public", "images", "story")
+TURNTABLE = len(sys.argv) > 2 and sys.argv[2] == "turntable"
+OUT = os.path.join(os.path.dirname(__file__), "..", "public", "images", "turntable" if TURNTABLE else "story")
 
 
 def load(name):
@@ -57,6 +60,18 @@ def save(im, name, width):
 
 
 os.makedirs(OUT, exist_ok=True)
+
+if TURNTABLE:
+    # Every frame gets the same crop and the same canvas (640 x 760, as turntable.tsx expects), so the toy turns on the spot.
+    names = sorted(os.path.splitext(os.path.basename(f))[0] for f in glob.glob(os.path.join(SRC, "[0-9][0-9].png")))
+    frames = [grounded(load(name)) for name in names]
+    boxes = [bbox(frame) for frame in frames]
+    l, t, r, b = min(x[0] for x in boxes), min(x[1] for x in boxes), max(x[2] for x in boxes), max(x[3] for x in boxes)
+    half = max((l + r) / 2 - l, (b - t) * 640 / 760 / 2)
+    box = (round((l + r) / 2 - half), round(b - half * 2 * 760 / 640), round((l + r) / 2 + half), b)
+    for name, frame in zip(names, frames):
+        save(frame.crop(box).resize((640, 760), Image.LANCZOS), name, 640)
+    sys.exit()
 
 # The lamb with and without its tag share one crop, so the two frames line up when they cross-fade.
 toy, tag = grounded(load("lamb-toy")), grounded(load("lamb-tag"))

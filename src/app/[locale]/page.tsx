@@ -7,6 +7,7 @@ import { Featured } from "@/components/sections/featured";
 import { Hero } from "@/components/sections/hero";
 import { Options } from "@/components/sections/options";
 import { MakingStory } from "@/components/sections/making-story";
+import { Turntable } from "@/components/sections/turntable";
 import { ButtonLink } from "@/components/ui/button";
 import { facts } from "@/content";
 import { isLocale } from "@/i18n/config";
@@ -22,6 +23,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
     <>
       <Hero locale={locale} dict={dict} />
       <Capabilities items={dict.marquee} />
+      <Turntable dict={dict} />
       <CollectionIndex locale={locale} dict={dict} />
       <Featured locale={locale} dict={dict} />
       <MakingStory

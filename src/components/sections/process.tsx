@@ -14,7 +14,7 @@ export function Process({ dict, action }: { dict: Dictionary; action?: ReactNode
 
   return (
     <section className="px-2 md:px-3">
-      <div className="rounded-[2rem] bg-butter md:rounded-[2.75rem]">
+      <div className="rounded-[2rem] bg-butter lit md:rounded-[2.75rem]">
         <div className="shell py-16 md:py-24">
           <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
             <div className="max-w-3xl">

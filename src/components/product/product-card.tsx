@@ -20,7 +20,7 @@ export function ProductCard({ product, locale, sizes = "(min-width: 1024px) 30vw
     <Link
       href={routes.product(locale, product.slug)}
       className={cn(
-        "group flex h-full flex-col rounded-card bg-paper-deep p-3 transition-[transform,background-color] duration-500 ease-plush hover:-translate-y-1 hover:scale-x-[1.012] hover:scale-y-[0.99] hover:bg-butter",
+        "group flex h-full flex-col rounded-card bg-paper-deep p-3 transition-[transform,background-color,color] duration-500 ease-plush hover:-translate-y-1 hover:scale-x-[1.012] hover:scale-y-[0.99] hover:bg-butter hover:lit",
         className,
       )}
     >
@@ -31,7 +31,7 @@ export function ProductCard({ product, locale, sizes = "(min-width: 1024px) 30vw
         </span>
         <span className="text-ink/60">{getCategory(product.category).name[locale]}</span>
       </div>
-      <div className="relative aspect-[4/3] overflow-hidden rounded-[1rem] bg-paper">
+      <div className="relative aspect-[4/3] overflow-hidden rounded-[1rem] bg-paper-deep">
         <Image
           src={image.src}
           alt={product.name[locale]}

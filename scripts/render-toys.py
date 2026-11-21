@@ -1,5 +1,5 @@
 """Render the plush bear for the home page story. Usage:
-   blender -b -P bear.py -- <mode: bear|tag|flat> <out.png> [resolution] [samples]
+   blender -b -P render-toys.py -- <mode: toy|tag|flat> <out.png> [resolution] [samples] [animal] [degrees turned]
 """
 import math, sys
 import bpy
@@ -11,6 +11,8 @@ RES = int(argv[2]) if len(argv) > 2 else 1200
 SAMPLES = int(argv[3]) if len(argv) > 3 else 96
 FLAT = MODE == "flat"
 ANIMAL = argv[4] if len(argv) > 4 else "bear"
+# Degrees the toy is turned away from the camera, for the turntable frames.
+TURN = math.radians(float(argv[5])) if len(argv) > 5 else 0
 
 bpy.ops.wm.read_factory_settings(use_empty=True)
 scene = bpy.context.scene
@@ -160,10 +162,15 @@ else:
     bpy.ops.mesh.primitive_plane_add(size=30, location=(0, 0, 0))
 bpy.context.object.is_shadow_catcher = True
 
+def orbit(loc):
+    """The camera and lights circle the toy together, which reads as the toy turning on the spot."""
+    x, y, z = loc
+    return (x * math.cos(TURN) + y * math.sin(TURN), y * math.cos(TURN) - x * math.sin(TURN), z)
+
 def light(loc, energy, size, colour=(1, 1, 1)):
     d = bpy.data.lights.new("l", "AREA"); d.energy = energy; d.size = size; d.color = colour
-    o = bpy.data.objects.new("l", d); scene.collection.objects.link(o); o.location = loc
-    o.rotation_euler = (Vector((0, 0, 1.2)) - Vector(loc)).to_track_quat("-Z", "Y").to_euler()
+    o = bpy.data.objects.new("l", d); scene.collection.objects.link(o); o.location = orbit(loc)
+    o.rotation_euler = (Vector((0, 0, 1.2)) - o.location).to_track_quat("-Z", "Y").to_euler()
 
 if FLAT:
     light((-2.5, -6, 4.5), 520, 5); light((3, -6, 0), 140, 6)
@@ -177,7 +184,7 @@ world.node_tree.nodes["Background"].inputs[1].default_value = 0.35
 cam = bpy.data.cameras.new("cam"); cam.lens = 90
 co = bpy.data.objects.new("cam", cam); scene.collection.objects.link(co); scene.camera = co
 target = Vector((0, 0, 1.13 if not FLAT else 0.95))
-co.location = (0, -11.5, 1.13 + 1.3) if not FLAT else (0, -11.5, 0.95)
+co.location = orbit((0, -11.5, 1.13 + 1.3)) if not FLAT else (0, -11.5, 0.95)
 co.rotation_euler = (target - co.location).to_track_quat("-Z", "Y").to_euler()
 if FLAT:
     cam.type = "ORTHO"; cam.ortho_scale = 4.4

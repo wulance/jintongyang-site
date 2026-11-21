@@ -30,7 +30,7 @@ const zh: Dictionary = {
     eyebrow: "设计",
     title: "每一面，都是设计",
     backdrop: "360°",
-    alt: "一只毛绒小熊原地旋转一圈",
+    alt: "一只毛绒小熊原地旋转",
     caption: "设计渲染图 · 滚动旋转",
     notes: [
       { side: "正面", title: "先定表情", body: "眼距、鼻口和笑容，在裁布之前就画进了纸样。几毫米的差别，决定角色的神态。" },

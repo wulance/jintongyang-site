@@ -47,7 +47,7 @@ company name (彤阳).
 
 The site is a dark studio, so the toys are the brightest thing on every screen. The home page opens
 on a stage where the designs in `src/content/lineup.ts` take turns in a spotlight of their own
-colour, each named with the details its designer decided. Below it a toy turns once as the page
+colour, each named with the details its designer decided. Below it a toy turns as the page
 scrolls, with a design note for each side.
 
 Colour is paper (the unlit stage), ink (the light on it) and persimmon, with butter and sky as the

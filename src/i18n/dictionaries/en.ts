@@ -29,7 +29,7 @@ const en = {
     eyebrow: "Design",
     title: "Designed from every side.",
     backdrop: "360°",
-    alt: "A plush bear turning once on the spot",
+    alt: "A plush bear turning on the spot",
     caption: "Design render · Scroll to turn",
     notes: [
       { side: "Front", title: "The face comes first", body: "Eye spacing, muzzle and smile are placed on the pattern before any fabric is cut. A few millimetres decide the character." },

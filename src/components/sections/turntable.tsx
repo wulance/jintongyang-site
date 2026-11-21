@@ -27,8 +27,8 @@ function Note({ p, index, total, children }: { p: MotionValue<number>; index: nu
 }
 
 /**
- * A design shown from every side. The page pins while scrolling turns the toy once on the spot,
- * and each side it reaches brings up what the designer decided there.
+ * A design shown from every side. The page pins while scrolling turns the toy on the spot, and each
+ * side it reaches brings up what the designer decided there. It rests on the last side until the page moves on.
  */
 export function Turntable({ dict }: { dict: Dictionary }) {
   const t = dict.turntable;
@@ -42,8 +42,8 @@ export function Turntable({ dict }: { dict: Dictionary }) {
 
   const turn = useTransform(
     p,
-    [0, ...SIDES.slice(1).map((_, i) => (i + 1.5) / total), 1],
-    [0, ...SIDES.slice(1).map((angle) => angle / 360), 1],
+    [...SIDES.map((_, i) => (i ? i + 0.5 : 0) / total), 1],
+    [...SIDES, SIDES[SIDES.length - 1]].map((angle) => angle / 360),
   );
   const degrees = useTransform(turn, (v) => String(Math.round(v * 360)).padStart(3, "0") + "°");
   const dial = useTransform(turn, [0, 1], [0, 360]);

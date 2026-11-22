@@ -18,8 +18,8 @@ export function LocaleSwitcher({ current, className }: { current: Locale; classN
             hrefLang={locale}
             aria-current={locale === current ? "true" : undefined}
             className={cn(
-              "rounded-full px-1.5 py-1 transition-opacity",
-              locale === current ? "font-semibold" : "opacity-50 hover:opacity-100",
+              "px-1 py-1 transition-opacity",
+              locale === current ? "font-medium" : "opacity-50 hover:opacity-100",
             )}
           >
             {localeLabels[locale]}

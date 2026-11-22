@@ -2,29 +2,23 @@ import type { Fact } from "@/content/company";
 import type { Locale } from "@/i18n/config";
 import { cn } from "@/lib/cn";
 
-/** Company-stated figures, set large on a raised panel. */
-export function Facts({ items, note, locale, className }: { items: Fact[]; note: string; locale: Locale; className?: string }) {
+/** Company-stated figures on one ruled row, with the note that they await confirmation. */
+export function Facts({ items, note, locale, title, className }: { items: Fact[]; note: string; locale: Locale; title?: string; className?: string }) {
   return (
-    <section className={cn("px-2 md:px-3", className)}>
-      <div className="rounded-[2rem] bg-paper-deep md:rounded-[2.75rem]">
-        <div className="shell py-14 md:py-20">
-          <dl className="grid grid-cols-2 lg:grid-cols-4">
-            {items.map((fact, i) => (
-              <div
-                key={fact.label.en}
-                className={cn("flex flex-col-reverse justify-end gap-3 border-ink/15 py-7 lg:px-8 lg:py-4", i % 2 ? "pl-6" : "pr-6", i % 2 ? "border-l" : "", i > 1 ? "max-lg:border-t" : "", i > 0 ? "lg:border-l" : "lg:pl-0")}
-              >
-                <dt className="note max-w-[14rem] leading-relaxed text-ink/65 [word-break:keep-all]">{fact.label[locale]}</dt>
-                <dd className="display text-[clamp(3.5rem,9vw,8.5rem)] text-butter">
-                  {fact.value}
-                  {i === 0 && <sup className="ml-1 align-super font-sans text-lg font-medium tracking-normal text-ink/60">*</sup>}
-                </dd>
-              </div>
-            ))}
-          </dl>
-          <p className="note mt-8 text-ink/55 normal-case">* {note}</p>
-        </div>
-      </div>
+    <section className={cn("shell", className)}>
+      {title && <h2 className="eyebrow mb-4">{title}</h2>}
+      <dl className="grid grid-cols-2 border-t border-ink lg:grid-cols-4">
+        {items.map((fact, i) => (
+          <div
+            key={fact.label.en}
+            className={cn("flex flex-col-reverse justify-end gap-1 border-line py-6 lg:py-8", i % 2 ? "pl-5" : "pr-5", i > 1 && "max-lg:border-t", i > 0 && "lg:border-l lg:pl-8", i % 2 && "max-lg:border-l")}
+          >
+            <dt className="text-[0.9375rem] leading-snug text-ink/80">{fact.label[locale]}</dt>
+            <dd className="font-display text-[clamp(2.5rem,4.6vw,4rem)] leading-[1.15] font-semibold">{fact.value}</dd>
+          </div>
+        ))}
+      </dl>
+      <p className="note border-t border-line pt-3 !text-xs">{note}</p>
     </section>
   );
 }

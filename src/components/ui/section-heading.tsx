@@ -6,23 +6,23 @@ interface Props {
   title: string;
   lead?: string;
   action?: ReactNode;
-  tone?: "ink" | "paper";
   className?: string;
 }
 
-export function SectionHeading({ eyebrow, title, lead, action, tone = "ink", className }: Props) {
+/** Label and headline on the left, the supporting sentence and its link on the right. */
+export function SectionHeading({ eyebrow, title, lead, action, className }: Props) {
   return (
-    <div className={cn("flex flex-col gap-8 md:flex-row md:items-end md:justify-between", className)}>
-      <div className="max-w-3xl">
-        {eyebrow && <p className={cn("eyebrow mb-5", tone === "paper" && "text-paper/60")}>{eyebrow}</p>}
-        <h2 className="display text-[clamp(2.25rem,5vw,4.25rem)]">{title}</h2>
-        {lead && (
-          <p className={cn("mt-6 max-w-xl text-lg leading-relaxed", tone === "paper" ? "text-paper/70" : "text-ink-soft")}>
-            {lead}
-          </p>
-        )}
+    <div className={cn("grid gap-x-14 gap-y-6 lg:grid-cols-2", className)}>
+      <div>
+        {eyebrow && <p className="eyebrow mb-4">{eyebrow}</p>}
+        <h2 className="display text-[clamp(1.75rem,3.1vw,2.625rem)]">{title}</h2>
       </div>
-      {action}
+      {(lead || action) && (
+        <div className={cn("flex max-w-[30rem] flex-col items-start gap-6", eyebrow ? "lg:pt-[2.3rem]" : "lg:pt-2")}>
+          {lead && <p className="text-ink/80">{lead}</p>}
+          {action}
+        </div>
+      )}
     </div>
   );
 }

@@ -26,7 +26,7 @@ export default async function ProductsPage({ params }: Props) {
         <Suspense>
           <ProductExplorer locale={locale} labels={t} optionLabels={dict.options.items} />
         </Suspense>
-        {locale === "en" && <p className="mt-14 text-xs text-ink-soft/80">{t.nameNote}</p>}
+        {locale === "en" && <p className="note mt-14 !text-xs">{t.nameNote}</p>}
       </section>
     </>
   );

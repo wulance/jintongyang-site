@@ -1,13 +1,11 @@
-import Image from "next/image";
 import Link from "next/link";
-import type { CSSProperties } from "react";
 import { ButtonLink } from "@/components/ui/button";
-import { company, cutoutImage } from "@/content";
+import { company } from "@/content";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/get-dictionary";
 import { routes } from "@/lib/routes";
 
-/** The footer is the closing statement: call to action, contact details, then the name as large as the page allows. */
+/** The page ends the way it starts: one sentence, one button, then the contact details. */
 export function SiteFooter({ locale, dict }: { locale: Locale; dict: Dictionary }) {
   const t = dict.footer;
   const links = [
@@ -16,82 +14,64 @@ export function SiteFooter({ locale, dict }: { locale: Locale; dict: Dictionary 
     { href: routes.factory(locale), label: dict.nav.factory },
     { href: routes.contact(locale), label: dict.nav.contact },
   ];
-  const penguin = cutoutImage(730);
 
   return (
-    <footer className="mt-20 px-2 pb-2 md:mt-28 md:px-3 md:pb-3">
-      <div
-        className="relative overflow-hidden rounded-[2rem] bg-persimmon text-ink md:rounded-[2.75rem]"
-        style={{ "--em": "var(--color-butter)" } as CSSProperties}
-      >
-        <div className="shell pt-16 md:pt-24">
-          <h2 className="display text-[clamp(3.25rem,10.5vw,10.5rem)] text-paper">
-            {t.statement[0]}
-            <br />
-            <em>{t.statement[1]}</em>
-          </h2>
-          <div className="mt-9 flex flex-col gap-6 md:mt-12 md:flex-row md:items-center md:gap-10">
-            <ButtonLink href={routes.contact(locale)} variant="ink" size="lg">
+    <footer className="bg-ink text-paper">
+      <div className="shell pt-16 pb-10 md:pt-24">
+        <div className="grid gap-x-14 gap-y-7 lg:grid-cols-2">
+          <h2 className="display text-[clamp(1.875rem,3.6vw,3rem)]">{dict.closing.title}</h2>
+          <div className="flex max-w-[30rem] flex-col items-start gap-7 lg:pt-3">
+            <p className="text-paper/80">{dict.closing.lead}</p>
+            <ButtonLink href={routes.contact(locale)} variant="paper" size="lg">
               {dict.cta.brief}
             </ButtonLink>
-            <p className="max-w-md text-lg leading-snug font-medium">{dict.closing.lead}</p>
-          </div>
-
-          <div className="mt-16 grid gap-10 border-t border-ink/20 pt-10 sm:grid-cols-2 md:mt-24 md:grid-cols-12">
-            <p className="max-w-xs font-medium md:col-span-4">{t.blurb}</p>
-            <div className="md:col-span-2">
-              <p className="eyebrow mb-4 !text-ink/60">{t.explore}</p>
-              <ul className="space-y-2.5 font-medium">
-                {links.map((link) => (
-                  <li key={link.href}>
-                    <Link href={link.href} className="underline-offset-4 hover:underline">
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="md:col-span-4">
-              <p className="eyebrow mb-4 !text-ink/60">{t.contact}</p>
-              <ul className="space-y-2.5 font-medium">
-                <li>{company.contact.person[locale]}</li>
-                <li>
-                  <a href={company.contact.phoneHref} className="underline-offset-4 hover:underline">
-                    {company.contact.phoneDisplay}
-                  </a>
-                </li>
-                <li className="text-ink/75">{company.contact.address[locale]}</li>
-              </ul>
-            </div>
-            <div className="md:col-span-2">
-              <p className="eyebrow mb-4 !text-ink/60">{t.brands}</p>
-              <ul className="space-y-2.5 font-medium">
-                {company.brands[locale].map((brand) => (
-                  <li key={brand}>{brand}</li>
-                ))}
-              </ul>
-            </div>
-          </div>
-
-          <div className="mt-12 flex flex-col gap-2 text-xs text-ink/70 md:flex-row md:items-center md:gap-10">
-            <p>
-              © {new Date().getFullYear()} {company.legalName[locale]} {t.rights}
-            </p>
-            <p>{t.disclaimer}</p>
           </div>
         </div>
 
-        <div aria-hidden className="relative mt-24 select-none md:mt-32">
-          <Image
-            src={penguin.src}
-            width={penguin.width}
-            height={penguin.height}
-            alt=""
-            className="absolute right-[7%] bottom-[58%] h-auto w-[17vw] max-w-56"
-          />
-          <p lang="en" className="display relative translate-y-[14%] text-center text-[15.4vw] leading-[0.74] whitespace-nowrap text-paper">
-            Jintongyang
+        <div className="mt-16 grid gap-x-14 gap-y-10 border-t border-paper/20 pt-10 text-[0.9375rem] sm:grid-cols-2 md:mt-24 lg:grid-cols-4">
+          <div>
+            <p className="font-medium">{company.legalName[locale]}</p>
+            <p className="mt-2 max-w-xs text-paper/65">{t.blurb}</p>
+          </div>
+          <div>
+            <p className="mb-3 text-[0.8125rem] text-paper/55">{t.explore}</p>
+            <ul className="space-y-1.5">
+              {links.map((link) => (
+                <li key={link.href}>
+                  <Link href={link.href} className="underline-offset-4 hover:underline">
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <p className="mb-3 text-[0.8125rem] text-paper/55">{t.contact}</p>
+            <ul className="space-y-1.5">
+              <li>{company.contact.person[locale]}</li>
+              <li>
+                <a href={company.contact.phoneHref} className="underline-offset-4 hover:underline">
+                  {company.contact.phoneDisplay}
+                </a>
+              </li>
+              <li className="text-paper/65">{company.contact.address[locale]}</li>
+            </ul>
+          </div>
+          <div>
+            <p className="mb-3 text-[0.8125rem] text-paper/55">{t.brands}</p>
+            <ul className="space-y-1.5">
+              {company.brands[locale].map((brand) => (
+                <li key={brand}>{brand}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <div className="mt-14 flex flex-col gap-1.5 text-xs text-paper/55 md:flex-row md:justify-between md:gap-10">
+          <p>
+            © {new Date().getFullYear()} {company.legalName[locale]} {t.rights}
           </p>
+          <p>{t.disclaimer}</p>
         </div>
       </div>
     </footer>

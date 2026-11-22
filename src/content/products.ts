@@ -100,5 +100,5 @@ export const products: Product[] = [
   { id: 703, slug: "ruan-tuan-tuan-penguin", category: "ruan-tuan-tuan", images: [703], name: { en: "Ruan Tuan Tuan Penguin", zh: "软团团 企鹅" } },
 ];
 
-/** Home page shelf, in display order. The hero already shows 708, 713 and 717. */
+/** Styles from other collections that fill up "related styles" on a product page. */
 export const featuredIds = [714, 739, 719, 730, 710, 740, 731];

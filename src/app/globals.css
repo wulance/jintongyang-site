@@ -1,157 +1,96 @@
 @import "tailwindcss";
 
+/* Source Han Sans / Serif CN, subset to the characters used in src/ (scripts/subset-fonts.py). */
 @font-face {
-  font-family: "JTY Round";
-  src: url("../fonts/jty-round-heavy.woff2") format("woff2");
-  font-weight: 800 900;
+  font-family: "JTY Sans";
+  src: url("../fonts/jty-sans-regular.woff2") format("woff2");
+  font-weight: 400;
   font-display: swap;
-  unicode-range: U+2E80-9FFF, U+FF00-FFEF;
 }
 @font-face {
-  font-family: "JTY Round";
-  src: url("../fonts/jty-round-bold.woff2") format("woff2");
-  font-weight: 600 700;
+  font-family: "JTY Sans";
+  src: url("../fonts/jty-sans-medium.woff2") format("woff2");
+  font-weight: 500 700;
   font-display: swap;
-  unicode-range: U+2E80-9FFF, U+FF00-FFEF;
 }
 @font-face {
-  font-family: "JTY Round";
-  src: url("../fonts/jty-round-regular.woff2") format("woff2");
-  font-weight: 400 500;
+  font-family: "JTY Serif";
+  src: url("../fonts/jty-serif-semibold.woff2") format("woff2");
+  font-weight: 600;
   font-display: swap;
-  unicode-range: U+2E80-9FFF, U+FF00-FFEF;
 }
 
 @theme {
-  /* A dark studio: "paper" is the unlit stage, "ink" the light on it, and persimmon the one sun.
-     Butter and sky are the only supporting colours. */
-  --color-paper: #0d0b0a;
-  --color-paper-deep: #1a1614;
-  --color-ink: #f7eedd;
-  --color-ink-soft: #a79c90;
-  --color-persimmon: #ff4a1c;
-  --color-persimmon-deep: #e03a10;
-  --color-butter: #ffd046;
-  --color-sky: #a9d8f5;
-  --color-line: color-mix(in srgb, #f7eedd 16%, transparent);
+  /* White paper, black ink, hairlines. Colour comes from the photographs and the toys. */
+  --color-paper: #ffffff;
+  --color-paper-deep: #f4f4f2;
+  --color-ink: #141414;
+  --color-ink-soft: #686868;
+  --color-line: #dcdcdc;
+  --color-alert: #b83a1e;
 
-  --font-display: "Fraunces Variable", "JTY Round", "PingFang SC", "Microsoft YaHei", serif;
-  --font-sans: "Instrument Sans Variable", "JTY Round", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", system-ui, sans-serif;
-  --font-mono: "DM Mono", "JTY Round", ui-monospace, "SFMono-Regular", monospace;
+  --font-display: "JTY Serif", "Songti SC", "Noto Serif CJK SC", "SimSun", Georgia, serif;
+  --font-sans: "JTY Sans", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", system-ui, sans-serif;
 
-  --radius-card: 1.5rem;
   --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
-  /* Overshoots and settles, like something stuffed springing back. */
-  --ease-plush: linear(0, 0.42 9%, 0.86 18%, 1.09 27%, 1.14 33%, 1.1 41%, 0.99 57%, 0.985 68%, 1);
-
-  --animate-spin-slow: spin 60s linear infinite;
-  --animate-bob: bob 6s ease-in-out infinite;
-  --animate-rise: rise 0.5s var(--ease-soft) both;
-
-  @keyframes bob {
-    50% { transform: translateY(-0.5rem) rotate(1.2deg); }
-  }
-  @keyframes rise {
-    from { opacity: 0; transform: translateY(0.75rem); }
-  }
-}
-
-/* A lit surface (butter, sky): what stands on it is drawn in the dark of the stage. */
-@utility lit {
-  --color-ink: #0d0b0a;
-  --color-paper: #f7eedd;
-  color: var(--color-ink);
-}
-
-/* Registered as a colour so the light can fade from one design's colour to the next. */
-@property --light {
-  syntax: "<color>";
-  inherits: true;
-  initial-value: #ff4a1c;
 }
 
 @layer base {
   html {
-    scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
   }
   body {
-    /* Rotating and tilted decorations must never widen the page. */
-    overflow-x: clip;
     background: var(--color-paper);
     color: var(--color-ink);
     font-family: var(--font-sans);
     font-size: 1rem;
-    line-height: 1.6;
+    line-height: 1.65;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
+  :lang(zh-CN) body {
+    line-height: 1.85;
+  }
   ::selection {
-    background: var(--color-persimmon);
+    background: var(--color-ink);
     color: var(--color-paper);
   }
   :focus-visible {
-    outline: 2px solid var(--color-persimmon);
+    outline: 2px solid var(--color-ink);
     outline-offset: 3px;
-    border-radius: 4px;
   }
 }
 
 @layer components {
-  /* Display type: Fraunces at its heaviest and softest, so the letters look stuffed. */
+  /* Headlines: a text serif at one weight. Lines break where the copy says so. */
   .display {
     font-family: var(--font-display);
-    font-weight: 900;
-    font-variation-settings: "SOFT" 100, "WONK" 1, "opsz" 144;
-    letter-spacing: -0.045em;
-    line-height: 0.92;
-    text-wrap: balance;
+    font-weight: 600;
+    letter-spacing: -0.012em;
+    line-height: 1.16;
     white-space: pre-line;
   }
-  .display em {
-    font-style: italic;
-    font-weight: 900;
-    color: var(--em, var(--color-persimmon));
-  }
-  /* Chinese display type is a rounded heavy gothic: no italics, looser leading, no negative tracking. */
   :lang(zh-CN) .display {
-    letter-spacing: 0;
-    line-height: 1.12;
-  }
-  :lang(zh-CN) .display em,
-  :lang(zh-CN) .display .italic {
-    font-style: normal;
+    letter-spacing: 0.01em;
+    line-height: 1.3;
   }
 
-  /* Spec-sheet annotations: small, monospaced, upper case. */
-  .note {
-    font-family: var(--font-mono);
-    font-size: 0.6875rem;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
-  :lang(zh-CN) .note {
-    font-size: 0.75rem;
-    letter-spacing: 0.14em;
-  }
-
+  /* Labels, captions and style numbers: small and grey, never upper case. */
+  .note,
   .eyebrow {
-    font-family: var(--font-mono);
-    font-size: 0.6875rem;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
+    font-size: 0.8125rem;
+    line-height: 1.6;
+    letter-spacing: 0.01em;
     color: var(--color-ink-soft);
   }
+  :lang(zh-CN) .note,
   :lang(zh-CN) .eyebrow {
-    letter-spacing: 0.2em;
-    font-size: 0.75rem;
+    letter-spacing: 0.06em;
   }
 
   .shell {
     width: 100%;
-    max-width: 85rem;
+    max-width: 90rem;
     margin-inline: auto;
     padding-inline: 1.25rem;
   }
@@ -159,180 +98,51 @@
     .shell { padding-inline: 2rem; }
   }
   @media (min-width: 1024px) {
-    .shell { padding-inline: 3rem; }
+    .shell { padding-inline: 2.75rem; }
+  }
+
+  /* A text link: one line under it. */
+  .textlink {
+    display: inline-block;
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 0.1875rem;
+    font-weight: 500;
+    line-height: 1.4;
+    white-space: nowrap;
+    transition: opacity 0.2s;
+  }
+  .textlink:hover {
+    opacity: 0.6;
   }
 
   .field {
     width: 100%;
-    border-radius: 0.875rem;
-    border: 1px solid var(--color-line);
-    background: color-mix(in srgb, var(--color-ink) 7%, var(--color-paper));
-    padding: 0.8rem 1rem;
+    border: 1px solid #bdbdbd;
+    border-radius: 0;
+    background: var(--color-paper);
+    padding: 0.7rem 0.875rem;
     font-size: 0.9375rem;
+    line-height: 1.5;
     color: var(--color-ink);
-    transition: border-color 0.2s, box-shadow 0.2s;
+    transition: border-color 0.2s;
   }
-  .field::placeholder { color: color-mix(in srgb, var(--color-ink-soft) 60%, transparent); }
+  .field::placeholder { color: #a3a3a3; }
   .field:focus {
     outline: none;
     border-color: var(--color-ink);
-    box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-sky) 30%, transparent);
+    box-shadow: inset 0 0 0 1px var(--color-ink);
   }
-  .field[aria-invalid="true"] { border-color: var(--color-persimmon); }
+  .field[aria-invalid="true"] { border-color: var(--color-alert); }
 }
 
 @layer utilities {
-  /* A cut-out toy sitting on the page: a soft contact shadow, no outline. */
-  .toy {
-    filter: drop-shadow(0 1.1rem 1rem rgb(0 0 0 / 0.5));
-  }
-
-  .stage-light {
-    transition: --light 0.9s var(--ease-soft);
-  }
-
-  /* A running stitch: used wherever the page needs a rule. */
-  .stitch {
-    height: 2px;
-    background: repeating-linear-gradient(90deg, currentColor 0 0.6rem, transparent 0.6rem 1.05rem);
-    border-radius: 2px;
-  }
-  .stitch-y {
-    width: 2px;
-    background: repeating-linear-gradient(180deg, currentColor 0 0.6rem, transparent 0.6rem 1.05rem);
-    border-radius: 2px;
-  }
-
-  /* Pattern paper: the faint grid a cutting pattern is drawn on. */
-  .sheet {
-    background-image:
-      linear-gradient(to right, color-mix(in srgb, var(--color-ink) 6%, transparent) 1px, transparent 1px),
-      linear-gradient(to bottom, color-mix(in srgb, var(--color-ink) 6%, transparent) 1px, transparent 1px);
-    background-size: 2.5rem 2.5rem;
-    background-position: center top;
-  }
-
-  /* Workshop photographs in one tone and turned down, so phone snapshots read as documentation. */
-  .duotone {
-    background: var(--color-paper-deep);
-  }
-  .duotone img {
-    filter: grayscale(1) contrast(1.05) brightness(0.8);
-    transition: filter 0.6s var(--ease-soft);
-  }
-  @media (hover: hover) {
-    .duotone:hover img { filter: none; }
-  }
-
-  /* The thread that sews the five steps together. Vertical on phones, horizontal on desktops. */
-  .thread {
-    position: absolute;
-    top: 0.25rem;
-    bottom: 0;
-    left: 0.6875rem;
-    width: 2px;
-  }
-  .thread-line {
-    width: 2px;
-    height: 100%;
-    border-radius: 2px;
-    background: repeating-linear-gradient(180deg, currentColor 0 0.6rem, transparent 0.6rem 1.05rem);
-  }
-  .thread-fill {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 2px;
-    height: var(--p, 0%);
-  }
-  .thread-needle {
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translate(-50%, -0.25rem) rotate(90deg);
-    transform-origin: 50% 50%;
-  }
-  @media (min-width: 64rem) {
-    .thread {
-      top: 0.6875rem;
-      right: 0;
-      bottom: auto;
-      left: 0;
-      width: auto;
-      height: 2px;
-    }
-    .thread-line {
-      width: 100%;
-      height: 2px;
-      background: repeating-linear-gradient(90deg, currentColor 0 0.6rem, transparent 0.6rem 1.05rem);
-    }
-    .thread-fill {
-      width: var(--p, 0%);
-      height: 2px;
-    }
-    .thread-needle {
-      top: 50%;
-      left: 100%;
-      transform: translate(-0.25rem, -50%);
-    }
-  }
-
-  /* One letter of a stuffed headline. It fills up on load and gives when pressed. */
-  .puff {
-    display: inline-block;
-    /* The heading is as wide as the page; only its letters take the pointer, so the toys beside it stay pressable. */
-    pointer-events: auto;
-    transform-origin: 50% 100%;
-    transition:
-      transform 0.7s var(--ease-plush),
-      font-variation-settings 0.7s var(--ease-plush);
-  }
-  @media (prefers-reduced-motion: no-preference) {
-    .puff {
-      animation: stuff 1.1s var(--ease-plush) both;
-      animation-delay: calc(var(--i, 0) * 45ms + 120ms);
-    }
-  }
-  @media (hover: hover) {
-    .puff:hover {
-      transform: scale(1.09, 0.84);
-      font-variation-settings: "SOFT" 100, "WONK" 1, "opsz" 144, "wght" 560;
-      transition-duration: 0.18s;
-    }
-  }
-  @keyframes stuff {
-    from {
-      opacity: 0;
-      transform: scale(0.72, 0.2);
-      font-variation-settings: "SOFT" 100, "WONK" 1, "opsz" 144, "wght" 200;
-    }
-    35% { opacity: 1; }
-  }
-
   .no-scrollbar { scrollbar-width: none; }
   .no-scrollbar::-webkit-scrollbar { display: none; }
-
-  /* Sections ease in as they enter the viewport, where the browser supports scroll timelines. */
-  @supports (animation-timeline: view()) {
-    @media (prefers-reduced-motion: no-preference) {
-      .reveal {
-        animation: reveal linear both;
-        animation-timeline: view();
-        animation-range: entry 0% entry 32%;
-      }
-    }
-  }
-  @keyframes reveal {
-    from { opacity: 0; transform: translateY(2rem); }
-    to { opacity: 1; transform: none; }
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
   }
 }

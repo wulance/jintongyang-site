@@ -1,46 +1,45 @@
 import Image from "next/image";
-import { ButtonLink } from "@/components/ui/button";
+import Link from "next/link";
+import { SectionHeading } from "@/components/ui/section-heading";
 import { factoryImage, factoryPhotos } from "@/content";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/get-dictionary";
-import { cn } from "@/lib/cn";
 import { routes } from "@/lib/routes";
 
-// Wide and narrow on the first row, thirds on the second.
-const spans = ["lg:col-span-7", "lg:col-span-5", "lg:col-span-4", "lg:col-span-4", "lg:col-span-4"];
+/** One photograph from each stage of production, in the order the copy names them. */
+const stages = [747, 751, 752, 754];
 
-/** Five workshop photographs printed in one ink. Colour comes back under the cursor. */
 export function FactoryPreview({ locale, dict }: { locale: Locale; dict: Dictionary }) {
   const t = dict.factory;
   return (
     <section className="shell py-20 md:py-28">
-      <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-        <div className="max-w-3xl">
-          <p className="eyebrow mb-4">{t.eyebrow}</p>
-          <h2 className="display text-[clamp(2.5rem,6.4vw,6rem)]">{t.title}</h2>
-        </div>
-        <div className="flex max-w-sm flex-col items-start gap-6">
-          <p className="text-lg leading-snug text-ink-soft">{t.lead}</p>
-          <ButtonLink href={routes.factory(locale)} variant="ink">
+      <SectionHeading
+        eyebrow={t.eyebrow}
+        title={t.title}
+        lead={t.lead}
+        action={
+          <Link href={routes.factory(locale)} className="textlink text-[0.9375rem]">
             {t.link}
-          </ButtonLink>
-        </div>
-      </div>
-
-      <ul className="mt-12 grid grid-cols-2 gap-3 md:mt-16 md:gap-4 lg:grid-cols-12">
-        {factoryPhotos.slice(0, 5).map((photo, i) => (
-          <li key={photo.id} className={cn("reveal", i === 0 && "max-lg:col-span-2", spans[i])}>
-            <figure>
-              <div className={cn("duotone relative overflow-hidden rounded-card", i < 2 ? "aspect-[4/3] lg:aspect-auto lg:h-[26rem]" : "aspect-[4/3]")}>
-                <Image src={factoryImage(photo.id).src} alt={photo.caption[locale]} fill sizes="(min-width: 1024px) 56vw, 92vw" className="object-cover" />
-              </div>
-              <figcaption className="note mt-3 flex gap-3 text-ink/70">
-                <span className="text-persimmon">{String(i + 1).padStart(2, "0")}</span>
-                {photo.caption[locale]}
-              </figcaption>
-            </figure>
-          </li>
-        ))}
+          </Link>
+        }
+      />
+      <ul className="mt-10 grid grid-cols-2 gap-x-5 gap-y-8 md:mt-14 lg:grid-cols-4 lg:gap-x-6">
+        {stages.map((id, i) => {
+          const photo = factoryPhotos.find((p) => p.id === id)!;
+          return (
+            <li key={id}>
+              <figure>
+                <div className="relative aspect-[4/3] bg-paper-deep lg:aspect-[4/5]">
+                  <Image src={factoryImage(id).src} alt={photo.caption[locale]} fill sizes="(min-width: 1024px) 24vw, 46vw" className="object-cover" />
+                </div>
+                <figcaption className="mt-3 flex gap-3 text-[0.9375rem] leading-snug">
+                  <span className="text-ink-soft">{String(i + 1).padStart(2, "0")}</span>
+                  {photo.caption[locale]}
+                </figcaption>
+              </figure>
+            </li>
+          );
+        })}
       </ul>
     </section>
   );

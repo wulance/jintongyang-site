@@ -34,7 +34,7 @@ export function MobileMenu({ locale, links, cta, labels }: Props) {
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
         aria-controls="mobile-menu"
-        className="relative z-50 flex h-11 items-center gap-2 rounded-full px-4 text-sm font-medium ring-1 ring-inset ring-ink/20"
+        className="relative z-50 -mr-2 flex h-11 items-center gap-2.5 px-2 text-sm font-medium"
       >
         {open ? labels.close : labels.menu}
         <span className="relative block h-2.5 w-4" aria-hidden>
@@ -53,19 +53,18 @@ export function MobileMenu({ locale, links, cta, labels }: Props) {
         </span>
       </button>
 
-      {/* Portalled to <body>: the header's backdrop-filter would otherwise clip a fixed child to the header box. */}
       {open &&
         createPortal(
           <div
             id="mobile-menu"
-            className="fixed inset-0 z-20 flex flex-col overflow-y-auto bg-persimmon px-5 pt-36 pb-8 lg:hidden"
+            className="fixed inset-0 z-20 flex flex-col overflow-y-auto bg-paper px-5 pt-32 pb-8 sm:px-8 lg:hidden"
           >
             <nav className="flex flex-col">
               {links.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="display border-b border-ink/20 py-4 text-[3.25rem] text-paper"
+                  className="display border-b border-line py-5 text-[2rem]"
                 >
                   {link.label}
                 </Link>

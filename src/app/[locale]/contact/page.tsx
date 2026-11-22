@@ -28,30 +28,28 @@ export default async function ContactPage({ params }: Props) {
   ];
 
   return (
-    <section className="shell grid gap-14 pt-14 pb-24 md:pt-24 md:pb-32 lg:grid-cols-12">
-      <div className="lg:col-span-5">
-        <p className="eyebrow mb-6">{dict.nav.contact}</p>
-        <h1 className="display text-[clamp(2.75rem,6.5vw,5.5rem)]">{t.title}</h1>
-        <p className="mt-6 max-w-md text-lg text-ink-soft">{dict.closing.lead}</p>
+    <section className="shell grid gap-x-14 gap-y-14 pt-12 pb-24 md:pt-20 md:pb-32 lg:grid-cols-2">
+      <div>
+        <p className="eyebrow mb-5">{dict.nav.contact}</p>
+        <h1 className="display text-[clamp(2.125rem,4.15vw,3.75rem)]">{t.title}</h1>
+        <p className="mt-6 max-w-[30rem] text-ink/80">{dict.closing.lead}</p>
 
-        <h2 className="eyebrow mt-16 mb-2">{t.detailsTitle}</h2>
-        <dl>
+        <h2 className="eyebrow mt-14 mb-3">{t.detailsTitle}</h2>
+        <dl className="border-t border-ink">
           {details.map((item) => (
-            <div key={item.label} className="grid grid-cols-[6.5rem_1fr] gap-4 border-b border-line py-4">
+            <div key={item.label} className="grid grid-cols-[6rem_1fr] gap-4 border-b border-line py-3.5 text-[0.9375rem] leading-snug">
               <dt className="text-ink-soft">{item.label}</dt>
-              <dd>{item.href ? <a href={item.href} className="underline decoration-line underline-offset-4 hover:decoration-ink">{item.value}</a> : item.value}</dd>
+              <dd>{item.href ? <a href={item.href} className="underline underline-offset-4 hover:opacity-60">{item.value}</a> : item.value}</dd>
             </div>
           ))}
         </dl>
       </div>
 
-      <div className="lg:col-span-7">
-        <div className="rounded-[2.25rem] bg-paper-deep p-6 md:p-10">
-          <p className="mb-8 text-ink-soft">{t.lead}</p>
-          <Suspense>
-            <InquiryForm locale={locale} labels={t.form} />
-          </Suspense>
-        </div>
+      <div className="lg:pt-[2.6rem]">
+        <p className="note mb-7">{t.lead}</p>
+        <Suspense>
+          <InquiryForm locale={locale} labels={t.form} />
+        </Suspense>
       </div>
     </section>
   );

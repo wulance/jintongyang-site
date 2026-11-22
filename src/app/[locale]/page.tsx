@@ -1,14 +1,11 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Capabilities } from "@/components/sections/capabilities";
 import { CollectionIndex } from "@/components/sections/collection-index";
 import { Facts } from "@/components/sections/facts";
 import { FactoryPreview } from "@/components/sections/factory-preview";
-import { Featured } from "@/components/sections/featured";
 import { Hero } from "@/components/sections/hero";
 import { Options } from "@/components/sections/options";
-import { MakingStory } from "@/components/sections/making-story";
-import { Turntable } from "@/components/sections/turntable";
-import { ButtonLink } from "@/components/ui/button";
+import { Process } from "@/components/sections/process";
 import { facts } from "@/content";
 import { isLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/get-dictionary";
@@ -22,21 +19,18 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
   return (
     <>
       <Hero locale={locale} dict={dict} />
-      <Capabilities items={dict.marquee} />
-      <Turntable dict={dict} />
+      <Facts items={facts} note={dict.facts.note} locale={locale} className="pt-10 md:pt-16" />
+      <FactoryPreview locale={locale} dict={dict} />
       <CollectionIndex locale={locale} dict={dict} />
-      <Featured locale={locale} dict={dict} />
-      <MakingStory
+      <Process
         dict={dict}
         action={
-          <ButtonLink href={routes.custom(locale)} variant="ink">
+          <Link href={routes.custom(locale)} className="textlink text-[0.9375rem]">
             {dict.process.link}
-          </ButtonLink>
+          </Link>
         }
       />
-      <Facts items={facts} note={dict.facts.note} locale={locale} className="pt-2 md:pt-3" />
       <Options dict={dict} />
-      <FactoryPreview locale={locale} dict={dict} />
     </>
   );
 }

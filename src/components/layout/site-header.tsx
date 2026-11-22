@@ -1,10 +1,11 @@
 import Link from "next/link";
-import type { Locale } from "@/i18n/config";
-import type { Dictionary } from "@/i18n/get-dictionary";
-import { siteConfig } from "@/config/site";
-import { routes } from "@/lib/routes";
 import { ButtonLink } from "@/components/ui/button";
 import { Logo } from "@/components/ui/logo";
+import { siteConfig } from "@/config/site";
+import { company } from "@/content";
+import type { Locale } from "@/i18n/config";
+import type { Dictionary } from "@/i18n/get-dictionary";
+import { routes } from "@/lib/routes";
 import { LocaleSwitcher } from "./locale-switcher";
 import { MobileMenu } from "./mobile-menu";
 
@@ -20,29 +21,24 @@ export function SiteHeader({ locale, dict }: { locale: Locale; dict: Dictionary 
   return (
     <>
       {siteConfig.showPreviewNotice && (
-        <p className="bg-paper-deep px-5 py-2 text-center text-xs tracking-wide text-ink/70">{dict.preview}</p>
+        <p className="bg-ink px-5 py-1.5 text-center text-xs leading-relaxed text-paper">{dict.preview}</p>
       )}
-      <header className="sticky top-2 z-30 px-2 pt-2 md:top-3 md:px-3 md:pt-3">
-        <div className="mx-auto flex h-16 max-w-[85rem] items-center justify-between gap-6 rounded-full bg-paper/85 pr-2.5 pl-5 shadow-[0_14px_34px_-18px_rgb(0_0_0/0.8)] ring-1 ring-ink/10 backdrop-blur-xl md:pl-7">
-          <Link href={routes.home(locale)} aria-label="Jintongyang" className="relative z-50">
-            <Logo sub={locale === "zh" ? "金彤阳玩具" : "PLUSH MANUFACTURER"} />
+      <header className="sticky top-0 z-30 border-b border-line bg-paper">
+        <div className="shell flex h-16 items-center justify-between gap-6">
+          <Link href={routes.home(locale)} className="relative z-50">
+            <Logo name={company.shortName[locale]} />
           </Link>
 
-          <nav className="hidden items-center gap-1 text-[0.9375rem] font-medium lg:flex">
-            {links.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="rounded-full px-4 py-2 transition-colors duration-300 hover:bg-ink hover:text-paper"
-              >
-                {link.label}
-              </Link>
-            ))}
-          </nav>
-
-          <div className="hidden items-center gap-6 lg:flex">
+          <div className="hidden items-center gap-8 text-sm lg:flex">
+            <nav className="flex items-center gap-8">
+              {links.map((link) => (
+                <Link key={link.href} href={link.href} className="underline-offset-[6px] hover:underline">
+                  {link.label}
+                </Link>
+              ))}
+            </nav>
             <LocaleSwitcher current={locale} />
-            <ButtonLink href={cta.href} variant="primary">
+            <ButtonLink href={cta.href} arrow={false}>
               {cta.label}
             </ButtonLink>
           </div>

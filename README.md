@@ -24,11 +24,11 @@ npm run images     # rebuild public/images from assets/source
 assets/source/        original images archived from jintongyang.com (never edited)
 scripts/              prepare-images.mjs: crops, removes size-chart stickers, upscales
                       cutouts.py: removes backdrops for the cut-out toys (public/images/cutouts)
-                      subset-fonts.py: cuts the Chinese fonts down to the characters in src/
+                      subset-fonts.py: cuts the web fonts down to the characters in src/
 src/app/[locale]/     pages: home, products, products/[slug], custom, factory, contact
 src/components/       layout / sections / product / inquiry / ui
 src/content/          typed data: company, categories, products, factory photos
-src/fonts/            Chinese web fonts, subset (see below)
+src/fonts/            web fonts, subset (see below)
 src/i18n/             locale config and the en / zh dictionaries
 src/lib/              routes, inquiry schema, helpers
 public/index.html     sends "/" to /en/ or /zh/ by browser language
@@ -40,53 +40,27 @@ To add a product: put the image in `assets/source/products/<id>.jpg`, add it to
 
 ## Design
 
-One idea runs through the site: soft things, made seriously. The soft half is the stuffed type and
-the toys, which give when pressed. The serious half is the spec-sheet layer: pattern-paper grid,
-monospaced annotations, running-stitch rules, call-out lines. The red disc is the sun in the
-company name (彤阳).
+The site is a white page with black type and hairline rules; the only colour is in the photographs
+and the toys. The first screen says what the factory does in one sentence, next to a photograph of
+the workshop it happens in, with a row of current styles underneath. Every page below it uses the
+same parts: a serif headline, a short supporting sentence, ruled lists, square photographs with a
+caption under them.
 
-The site is a dark studio, so the toys are the brightest thing on every screen. The home page opens
-on a stage where the designs in `src/content/lineup.ts` take turns in a spotlight of their own
-colour, each named with the details its designer decided. Below it a toy turns as the page
-scrolls, with a design note for each side.
+The workshop photographs are the ones on jintongyang.com. The hero photograph is set by `PHOTO` in
+`src/components/sections/hero.tsx` and the four stages on the home page by `stages` in
+`src/components/sections/factory-preview.tsx`; swap in originals from the factory there once they exist.
 
-Colour is paper (the unlit stage), ink (the light on it) and persimmon, with butter and sky as the
-only supporting tones. Text on a butter or sky surface takes the `lit` utility, which swaps ink and
-paper.
+## Fonts
 
-## Chinese fonts
-
-Chinese text is set in Resource Han Rounded CN (SIL OFL 1.1). The full fonts are about 14 MB a
-weight, so `src/fonts/` holds subsets with only the characters used in `src/` (about 95 KB each).
-After changing Chinese copy or product names, download the fonts from
-https://github.com/CyanoHao/Resource-Han-Rounded/releases and run
-`python3 scripts/subset-fonts.py <folder with the .ttf files>`. A character missing from the subset
+Headlines are set in Source Han Serif CN and everything else in Source Han Sans CN (both SIL OFL
+1.1), for English as well as Chinese. The full fonts are 8 to 12 MB a weight, so `src/fonts/` holds
+subsets with Latin plus only the Chinese characters used in `src/` (100 to 140 KB each). After
+changing Chinese copy or product names, download `SourceHanSansCN-Regular.otf`,
+`SourceHanSansCN-Medium.otf` and `SourceHanSerifCN-SemiBold.otf` from
+https://github.com/adobe-fonts/source-han-sans/releases and
+https://github.com/adobe-fonts/source-han-serif/releases and run
+`python3 scripts/subset-fonts.py <folder with the .otf files>`. A character missing from the subset
 falls back to the system font.
-
-## Story toys
-
-The toys in the home page story (`public/images/story/`) are 3D renders, not photographs of factory
-products: a lamb, a bear and a bunny modelled and lit in `scripts/render-toys.py`. To change them,
-install Blender 4.2 and render each frame (about 10 minutes on 8 CPU cores, no GPU needed):
-
-```
-blender -b -P scripts/render-toys.py -- toy  renders/lamb-toy.png  1100 64 lamb
-blender -b -P scripts/render-toys.py -- tag  renders/lamb-tag.png  1100 64 lamb
-blender -b -P scripts/render-toys.py -- flat renders/lamb-flat.png 1100 80 lamb
-blender -b -P scripts/render-toys.py -- toy  renders/bear-toy.png  1100 80 bear
-blender -b -P scripts/render-toys.py -- toy  renders/bunny-toy.png 1100 80 bunny
-python3 scripts/pack-toys.py renders    # needs Pillow and numpy
-```
-
-The bear that turns on the home page (`public/images/turntable/`) is the same model rendered from
-32 angles, 11.25° apart (about 2 minutes a frame):
-
-```
-for i in $(seq 0 31); do
-  blender -b -P scripts/render-toys.py -- toy turn/$(printf %02d $i).png 720 48 bear $(echo "$i * 11.25" | bc)
-done
-python3 scripts/pack-toys.py turn turntable
-```
 
 ## Before this goes public
 

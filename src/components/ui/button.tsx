@@ -4,15 +4,14 @@ import { cn } from "@/lib/cn";
 import { Arrow } from "./arrow";
 
 const variants = {
-  primary: "bg-persimmon text-white hover:bg-persimmon-deep",
-  ink: "bg-ink text-paper hover:bg-ink/85",
-  paper: "bg-paper text-ink hover:bg-paper-deep",
-  ghost: "text-ink ring-1 ring-inset ring-ink/20 hover:ring-ink/60",
+  ink: "bg-ink text-paper hover:bg-ink/80",
+  paper: "bg-paper text-ink hover:bg-paper/85",
+  outline: "text-ink ring-1 ring-inset ring-ink hover:bg-ink hover:text-paper",
 };
 
 const sizes = {
-  md: "h-11 px-5 text-sm",
-  lg: "h-14 px-7 text-base",
+  md: "h-10 px-[1.125rem] text-sm",
+  lg: "h-12 px-6 text-[0.9375rem]",
 };
 
 type Variant = keyof typeof variants;
@@ -20,7 +19,7 @@ type Size = keyof typeof sizes;
 
 export function buttonClass(variant: Variant = "ink", size: Size = "md", className?: string) {
   return cn(
-    "group/btn inline-flex shrink-0 items-center justify-center gap-2.5 rounded-full font-medium whitespace-nowrap transition-colors duration-300",
+    "group/btn inline-flex shrink-0 items-center justify-center gap-3 font-medium whitespace-nowrap transition-colors duration-200",
     variants[variant],
     sizes[size],
     className,

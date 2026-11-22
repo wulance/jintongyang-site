@@ -77,7 +77,7 @@ export function InquiryForm({ locale, labels }: { locale: Locale; labels: Labels
           {projectTypes.map((type, i) => (
             <label key={type} className="cursor-pointer">
               <input type="radio" name="projectType" value={type} defaultChecked={i === 0} className="peer sr-only" />
-              <span className="flex h-11 items-center rounded-full px-5 text-sm ring-1 ring-inset ring-ink/15 transition-colors peer-checked:bg-ink peer-checked:text-paper peer-focus-visible:ring-2 peer-focus-visible:ring-persimmon">
+              <span className="flex h-10 items-center px-4 text-sm ring-1 ring-inset ring-[#bdbdbd] transition-colors peer-checked:bg-ink peer-checked:text-paper peer-checked:ring-ink peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-ink">
                 {labels.types[type]}
               </span>
             </label>
@@ -106,10 +106,10 @@ export function InquiryForm({ locale, labels }: { locale: Locale; labels: Labels
       <input name="website" tabIndex={-1} autoComplete="off" aria-hidden className="hidden" />
 
       <div className="flex flex-col gap-4 sm:col-span-2 sm:flex-row sm:items-center">
-        <button type="submit" disabled={status === "sending"} className={buttonClass("primary", "lg", "disabled:opacity-60")}>
+        <button type="submit" disabled={status === "sending"} className={buttonClass("ink", "lg", "cursor-pointer disabled:opacity-60")}>
           {status === "sending" ? labels.sending : labels.submit}
         </button>
-        <p role="status" aria-live="polite" className="text-sm text-ink-soft">
+        <p role="status" aria-live="polite" className="text-sm leading-relaxed text-ink/80">
           {message}
         </p>
       </div>
